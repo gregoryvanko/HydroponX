@@ -1,6 +1,7 @@
 # HydroponX
 Ce projet décrit un ensemble de module b&sé sur des microcontroleur ESP32 permettant de controler automatiquement un système de culture hydroponique.
 Tous ces modules communiquent entre eux par le protocole ESP-NOW.
+
 Le premier module recolte les mesures de différents capteurs:
 - La temperature de l'eau
 - l'EC de l'eau
