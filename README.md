@@ -33,28 +33,28 @@ Le second module:
 
 
 ## Module gateway MQTT : cablage
-| Composant           | Broche ESP32 | Remarques                        |
+| Composant            | Broche ESP32 | Remarques                          |
 |----------------------|--------------|------------------------------------|
 | Relais pompe IN      | GPIO 26      | HIGH = pompe ON                    |
 | Relais pompe VCC     | 5V           |                                    |
-| Relais pompe GND     | GND          |                                    |
+| Relais pompe GND      | GND          |                                      |
 
 ## Topics MQTT
 
 ### Publiés par Module Gateway
-| Topic                        | Valeur exemple | Description              |
-|------------------------------|----------------|--------------------------|
-| `hydro/sensors/temperature`  | `22.50`        | Température eau (°C)     |
-| `hydro/sensors/ec`           | `1.850`        | Conductivité (mS/cm)     |
-| `hydro/sensors/water_level`  | `75.3`         | Niveau eau (%)           |
-| `hydro/sensors/flow_present` | `true`         | Flux présent (bool)      |
-| `hydro/pump/state`           | `ON`           | État relais pompe        |
-| `hydro/alerts`               | `ALERTE: …`    | Alertes système          |
+| Topic                 | Valeur exemple | Description              |
+|-----------------------|----------------|--------------------------|
+| `hydro1/temperature`  | `22.50`        | Température eau (°C)     |
+| `hydro1/ec`           | `1.850`        | Conductivité (mS/cm)     |
+| `hydro1/water_level`  | `75`           | Niveau eau (%)           |
+| `hydro1/flow_present` | `true`         | Flux présent (bool)      |
+| `hydro1/pump_state`   | `ON`           | État relais pompe (bool) |
+| `hydro/alerts`        | `ALERTE: …`    | Alertes système (string  |
 
 ### Souscrit par Module Gateway
-| Topic                 | Valeurs acceptées | Description               |
-|-----------------------|-------------------|---------------------------|
-| `hydro/pump/command`  | `ON` / `OFF` / `AUTO` | Contrôle manuel pompe |
+| Topic                 | Valeurs acceptées | Description                  |
+|-----------------------|-------------------|------------------------------|
+| `hydro1/command`      | `JSON`            | Contrôle pompe, commande...  |
 
 ## Obtenir les adresses MAC
 Flashez ce sketch minimal sur chaque ESP32 pour afficher son adresse MAC :
