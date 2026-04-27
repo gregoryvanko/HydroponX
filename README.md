@@ -32,4 +32,62 @@ Le second module:
 | Niveau eau GND      | GND          |                                    |
 > 
 
-## Module gateway MQTT
+## Module gateway MQTT : cablage
+| Composant           | Broche ESP32 | Remarques                        |
+|----------------------|--------------|------------------------------------|
+| Relais pompe IN      | GPIO 26      | HIGH = pompe ON                    |
+| Relais pompe VCC     | 5V           |                                    |
+| Relais pompe GND     | GND          |                                    |
+
+## Topics MQTT
+
+### Publiés par Module 2
+| Topic                        | Valeur exemple | Description              |
+|------------------------------|----------------|--------------------------|
+| `hydro/sensors/temperature`  | `22.50`        | Température eau (°C)     |
+| `hydro/sensors/ec`           | `1.850`        | Conductivité (mS/cm)     |
+| `hydro/sensors/water_level`  | `75.3`         | Niveau eau (%)           |
+| `hydro/sensors/flow_present` | `true`         | Flux présent (bool)      |
+| `hydro/pump/state`           | `ON`           | État relais pompe        |
+| `hydro/alerts`               | `ALERTE: …`    | Alertes système          |
+
+### Souscrit par Module 2
+| Topic                 | Valeurs acceptées | Description               |
+|-----------------------|-------------------|---------------------------|
+| `hydro/pump/command`  | `ON` / `OFF` / `AUTO` | Contrôle manuel pompe |
+
+---
+
+## Obtenir les adresses MAC
+
+Flashez ce sketch minimal sur chaque ESP32 pour afficher son adresse MAC :
+
+```cpp
+#include <WiFi.h>
+void setup() {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  Serial.println(WiFi.macAddress());
+}
+void loop() {}
+```
+
+---
+
+## Étalonnage du capteur EC
+
+Le capteur EC doit être étalonné avec des solutions étalon (ex. 1.413 mS/cm).
+Mesurez la tension en sortie du capteur dans la solution étalon et ajustez
+`EC_CALIBRATION_K` pour que la valeur calculée corresponde.
+
+---
+
+## Notes sur ESP-NOW + WiFi simultanés
+
+Les deux protocoles utilisent la même radio WiFi. Pour qu'ils coexistent :
+- Module 1 : `WiFi.mode(WIFI_STA)` + `WiFi.disconnect()` (pas de connexion AP)
+- Module 2 : `WiFi.mode(WIFI_STA)` + connexion AP normale
+
+Les deux modules doivent être sur le **même canal WiFi** (par défaut canal 1).
+Si votre routeur utilise un canal différent, ajustez `peerInfo.channel` dans Module 1
+ou forcez le canal dans `esp_now_add_peer`.
