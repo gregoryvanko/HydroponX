@@ -30,7 +30,7 @@ Le second module:
 | Niveau eau (signal) | GPIO 27      | Pull-up interne activé             |
 | Niveau eau VCC      | 5V           |                                    |
 | Niveau eau GND      | GND          |                                    |
-> 
+
 
 ## Module gateway MQTT : cablage
 | Composant           | Broche ESP32 | Remarques                        |
@@ -41,7 +41,7 @@ Le second module:
 
 ## Topics MQTT
 
-### Publiés par Module 2
+### Publiés par Module Gateway
 | Topic                        | Valeur exemple | Description              |
 |------------------------------|----------------|--------------------------|
 | `hydro/sensors/temperature`  | `22.50`        | Température eau (°C)     |
@@ -51,15 +51,12 @@ Le second module:
 | `hydro/pump/state`           | `ON`           | État relais pompe        |
 | `hydro/alerts`               | `ALERTE: …`    | Alertes système          |
 
-### Souscrit par Module 2
+### Souscrit par Module Gateway
 | Topic                 | Valeurs acceptées | Description               |
 |-----------------------|-------------------|---------------------------|
 | `hydro/pump/command`  | `ON` / `OFF` / `AUTO` | Contrôle manuel pompe |
 
----
-
 ## Obtenir les adresses MAC
-
 Flashez ce sketch minimal sur chaque ESP32 pour afficher son adresse MAC :
 
 ```cpp
