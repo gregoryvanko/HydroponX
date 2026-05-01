@@ -20,7 +20,7 @@ ToDo
 
 ## Module Capteur
 ### Architecture
-![Description](Assets/Images/Architecture.png)
+![Description](Assets/Images/ModuleCapteurArchitecture.png)
 
 ### Cablage
 | Capteur             | Broche ESP32 | Remarques                          |
