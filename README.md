@@ -39,7 +39,7 @@ ToDo
 | Niveau eau VCC      | 5V           |                                    |
 | Niveau eau GND      | GND          |                                    |
 
-![Description](Assets/Images/Capteurs.png)
+![Description](Assets/Images/ModuleCapteurs.png)
 
 ---
 
