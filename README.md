@@ -13,6 +13,7 @@ Le second module:
 - collecte les mesures des capteurs et les envoient sur un broker MQTT en passant par une connection Wifi
 
 ## Architecture
+![Description](Assets/Images/Architecture.png)
 
 ## Module Capteur : cablage
 | Capteur             | Broche ESP32 | Remarques                          |
