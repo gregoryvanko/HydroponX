@@ -2,15 +2,16 @@
 Ce projet décrit un ensemble de module gérés par des microcontroleur ESP32 permettant de controler automatiquement un système de culture hydroponique.
 Tous ces modules communiquent entre eux par le protocole ESP-NOW.
 
-Le premier module recolte les mesures de différents capteurs:
-- La temperature de l'eau par un capteur DS18B20
-- l'EC de l'eau par un capteur TDS de CQRobot
-- La quantité d'eau restant dans le réservoir d'eau par un capteur JNS-SR04T
-- La présence d'eau revenant dans le réservoir par un capteur de niveau d'eau de CQRobot
+Le premier module:
+- mesure la temperature de l'eau par un capteur DS18B20
+- mesure l'EC de l'eau par un capteur TDS de CQRobot
+- mesure la quantité d'eau restant dans le réservoir d'eau par un capteur JNS-SR04T
+- mesure la présence d'eau revenant dans le réservoir par un capteur de niveau d'eau de CQRobot
+- envoie toutes les minutes les mesures des différents capteurs au second module via ESP-NOW
 
 Le second module:
 - pilote la pompe à eau du système par un module relais
-- collecte les mesures des capteurs et les envoient sur un broker MQTT en passant par une connection Wifi
+- collecte les mesures des capteurs du premier module et les envoient sur un broker MQTT via une connection Wifi
 
 ## Architecture
 ToDo
