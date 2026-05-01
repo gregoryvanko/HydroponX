@@ -13,9 +13,13 @@ Le second module:
 - collecte les mesures des capteurs et les envoient sur un broker MQTT en passant par une connection Wifi
 
 ## Architecture
+ToDo
+
+## Module Capteur
+### Architecture
 ![Description](Assets/Images/Architecture.png)
 
-## Module Capteur : cablage
+### Cablage
 | Capteur             | Broche ESP32 | Remarques                          |
 |---------------------|--------------|------------------------------------|
 | DS18B20 Data        | GPIO 4       | Résistance pull-up 4.7 kΩ vers 5V. |
@@ -34,7 +38,11 @@ Le second module:
 
 ![Description](Assets/Images/Capteurs.png)
 
-## Module gateway MQTT : cablage
+## Module gateway MQTT
+### Architecture
+Todo
+
+### Cablage
 | Composant            | Broche ESP32 | Remarques                          |
 |----------------------|--------------|------------------------------------|
 | Relais pompe IN      | GPIO 26      | HIGH = pompe ON                    |
