@@ -16,6 +16,8 @@ Le second module:
 ## Architecture
 ToDo
 
+---
+
 ## Module Capteur
 ### Architecture
 ![Description](Assets/Images/Architecture.png)
@@ -38,6 +40,8 @@ ToDo
 | Niveau eau GND      | GND          |                                    |
 
 ![Description](Assets/Images/Capteurs.png)
+
+---
 
 ## Module gateway MQTT
 ### Architecture
@@ -64,6 +68,8 @@ Todo
 | Topic                 | Valeurs acceptées | Description                  |
 |-----------------------|-------------------|------------------------------|
 | `hydro1/command`      | `JSON`            | Contrôle pompe, commande...  |
+
+---
 
 ## Obtenir les adresses MAC
 Flashez ce sketch minimal sur chaque ESP32 pour afficher son adresse MAC :
@@ -97,3 +103,5 @@ Les deux protocoles utilisent la même radio WiFi. Pour qu'ils coexistent :
 Les deux modules doivent être sur le **même canal WiFi** (par défaut canal 1).
 Si votre routeur utilise un canal différent, ajustez `peerInfo.channel` dans Module 1
 ou forcez le canal dans `esp_now_add_peer`.
+
+---
