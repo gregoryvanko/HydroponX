@@ -50,9 +50,7 @@ Todo
 | Relais VCC        | 5V           |                                    |
 | Relais GND        | GND          |                                      |
 
-## Topics MQTT
-
-### Publiés par Module Gateway
+### Topics MQTT publiés par Module Gateway
 | Topic                 | Valeur exemple | Description              |
 |-----------------------|----------------|--------------------------|
 | `hydro1/temperature`  | `22.50`        | Température eau (°C)     |
@@ -62,7 +60,7 @@ Todo
 | `hydro1/pump_state`   | `ON`           | État relais pompe (bool) |
 | `hydro/alerts`        | `ALERTE: …`    | Alertes système (string  |
 
-### Souscrit par Module Gateway
+### Topics MQTT souscrit par Module Gateway
 | Topic                 | Valeurs acceptées | Description                  |
 |-----------------------|-------------------|------------------------------|
 | `hydro1/command`      | `JSON`            | Contrôle pompe, commande...  |
