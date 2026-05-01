@@ -31,6 +31,7 @@ Le second module:
 | Niveau eau VCC      | 5V           |                                    |
 | Niveau eau GND      | GND          |                                    |
 
+![Description](Assets/Images/Capteurs.png)
 
 ## Module gateway MQTT : cablage
 | Composant            | Broche ESP32 | Remarques                          |
