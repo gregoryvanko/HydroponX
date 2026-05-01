@@ -43,11 +43,11 @@ ToDo
 Todo
 
 ### Cablage
-| Composant            | Broche ESP32 | Remarques                          |
-|----------------------|--------------|------------------------------------|
-| Relais pompe IN      | GPIO 26      | HIGH = pompe ON                    |
-| Relais pompe VCC     | 5V           |                                    |
-| Relais pompe GND      | GND          |                                      |
+| Composant         | Broche ESP32 | Remarques                          |
+|-------------------|--------------|------------------------------------|
+| Relais pompe      | GPIO 26      | HIGH = pompe ON                    |
+| Relais VCC        | 5V           |                                    |
+| Relais GND        | GND          |                                      |
 
 ## Topics MQTT
 
