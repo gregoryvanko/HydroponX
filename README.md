@@ -1,12 +1,12 @@
 # HydroponX
 Ce projet décrit un ensemble de module gérés par des microcontroleur ESP32 permettant de controler automatiquement un système de culture hydroponique.
-Tous ces modules communiquent entre eux par le protocole ESP-NOW.
+Tous les modules communiquent entre eux par le protocole ESP-NOW.
 
 Le premier module:
 - mesure la temperature de l'eau par un capteur DS18B20
 - mesure l'EC de l'eau par un capteur TDS de CQRobot
-- mesure la quantité d'eau restant dans le réservoir d'eau par un capteur JNS-SR04T
-- mesure la présence d'eau revenant dans le réservoir par un capteur de niveau d'eau de CQRobot
+- mesure le niveau d'eau restant dans le réservoir par un capteur JNS-SR04T
+- mesure la présence d'eau revenant dans le réservoir par un capteur de présence d'eau de CQRobot
 - envoie toutes les minutes les mesures des différents capteurs au second module via ESP-NOW
 
 Le second module:
@@ -31,11 +31,11 @@ ToDo
 | Sonde TDS (signal)  | GPIO 34      |                                    |
 | Sonde TDS VCC       | 5V           |                                    |
 | Sonde TDS GND       | GND          |                                    |
-| JNS-SR04T Trig      | GPIO 12      |                                    |
-| JNS-SR04T Echo      | GPIO 14      | Diviseur 5V→3.3V                   |
+| JNS-SR04T Trig      | GPIO 5       |                                    |
+| JNS-SR04T Echo      | GPIO 18      | Diviseur 5V→3.3V                   |
 | JNS-SR04T VCC       | 5V           |                                    |
 | JNS-SR04T GND       | GND          |                                    |
-| Niveau eau (signal) | GPIO 27      | Pull-up interne activé             |
+| Niveau eau (signal) | GPIO 35      |                                    |
 | Niveau eau VCC      | 5V           |                                    |
 | Niveau eau GND      | GND          |                                    |
 
