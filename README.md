@@ -18,6 +18,11 @@ ToDo
 
 ---
 
+## ESP32 Pinout
+![Description](Assets/Images/Esp32_Pinout.jpg)
+
+---
+
 ## Module Capteur
 ### Architecture
 ![Description](Assets/Images/ModuleCapteurArchitecture.png)
