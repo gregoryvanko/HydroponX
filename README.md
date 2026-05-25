@@ -45,7 +45,6 @@ ToDo
 | Niveau eau GND      | GND          |                                    |
 
 ![Description](Assets/Images/ModuleCapteurs.png)
-![Description](Assets/STL/Module-Sonde.stl)
 
 ---
 
