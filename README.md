@@ -14,7 +14,7 @@ Le second module:
 - collecte les mesures des capteurs du premier module et les envoient sur un broker MQTT via une connection Wifi
 
 ## Architecture
-ToDo
+![Description](Assets/Images/Architecture.pbg)
 
 ---
 
