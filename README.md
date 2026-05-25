@@ -50,7 +50,8 @@ ToDo
 
 ## Module gateway MQTT
 ### Architecture
-Todo
+![Description](Assets/Images/ModuleGatewayArchitecture.png)
+
 
 ### Cablage
 | Composant         | Broche ESP32 | Remarques                          |
