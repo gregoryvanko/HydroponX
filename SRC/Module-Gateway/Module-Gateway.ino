@@ -2,11 +2,13 @@
 
 #include <Arduino.h>
 #include "Config.h"
-#include "SensorData.h"
-#include "espnow_comm.h"
 #include <WiFi.h>
 #include "WifiHelper.h"
 #include "MqttGateway.h"
+#include "CANManager.h"
+
+// Crée une instance du gestionnaire CAN
+CANManager can;
 
 // ── Objets globaux ────────────────────────────────────────────────────────────
 WiFiClient  wifiClient;
@@ -33,6 +35,35 @@ void onMqttMessage(const String& topic, const String& payload) {
     }
 }
 
+// ---------------------------------------------------------------------------
+// Traitement des commandes reçues
+// ---------------------------------------------------------------------------
+
+// void traiter_commande(const can_trame_t &trame)
+// {
+//     switch (trame.id) {
+
+//         case CONFIG_CAN_ID_waterPresent: {
+//             bool etat = can_decoder_bool(&trame);
+//             Serial.printf("[CMD] waterPresent → %s\n", etat ? "ON" : "OFF");
+//             // TODO : piloter la sortie GPIO de la pompe nutritive
+//             break;
+//         }
+
+//         case CONFIG_CAN_ID_waterTemp: {
+//             float waterTemp = can_decoder_float(&trame);
+//             Serial.printf("[CMD] Temp → %.2f\n", waterTemp);
+//             // TODO : mettre à jour la consigne du régulateur de pH
+//             break;
+//         }
+
+//         default:
+//             Serial.printf("[CMD] ID inconnu : 0x%03lX\n", (unsigned long)trame.id);
+//             break;
+//     }
+// }
+
+
 // ---setup------------------------------------------------
 void setup() {
   // setup serial
@@ -56,11 +87,12 @@ void setup() {
   mqtt.subscribe(CONFIG_TOPIC_CMD, 1);
   mqtt.publish(CONFIG_TOPIC_STATUS, "online", /*retain=*/true);
 
-  // ESP-NOW (Pas de pair à enregistrer côté récepteur → nullptr)
-  if (!espnowComm.begin(nullptr,true)) {
-      Serial.println("FATAL : Initialisation ESP-NOW échouée. Redémarrage...");
-      delay(3000);
-      ESP.restart();
+  // Initialisation du bus CAN
+  if (!can.begin(16, 17, 1000000)) {
+      Serial.println("ERREUR: Impossible d'initialiser le CAN!");
+      while (1) {
+          delay(100);
+      }
   }
 
   // Setup done
@@ -83,31 +115,32 @@ void loop() {
     lastMesure = now;
   }
 
-  // Réception message ESP-NOW
-  if (espnowComm.hasNewMessage()) {
-      // Get last message
-      String   msg = espnowComm.getLastMessage();
-      // Désérialisation → SensorData_t
-      SensorData_t parsed;
-      bool deserialisationIsOk = stringToSensorData(msg, parsed);
-      // si la deserialisation est OK
-      if (deserialisationIsOk) {
-          // Print mesures
-          Serial.printf("[DATA] Temp=%.2f°C  EC=%.2fmS/cm  Niveau=%.1fcm  Flux=%s\n",
-              parsed.waterTemp,
-              parsed.waterEc,
-              parsed.waterLevel,
-              parsed.waterPresent ? "OUI" : "NON");
-      } else {
-          Serial.println("ERREUR : parsing SensorData_t échoué !");
+  CANManager::CANMessage rxMessage;
+    
+  if (can.receive(rxMessage)) {
+      Serial.printf("[RX] ID=0x%03X, DLC=%d, ", rxMessage.id, rxMessage.dlc);
+
+      // Décode et affiche selon le type
+      if (rxMessage.type == CANManager::DATA_BOOL) {
+          bool value = CANManager::decodeBool(rxMessage);
+          Serial.printf("| Bool décodé: %s\n", value ? "true" : "false");
+      } 
+      else if (rxMessage.type == CANManager::DATA_FLOAT) {
+          float value = CANManager::decodeFloat(rxMessage);
+          Serial.printf("| Float décodé: %.4f\n", value);
       }
-
-      // send MQTT
-      mqtt.publish(CONFIG_TOPIC_waterTemp, String(parsed.waterTemp, 2));
-      mqtt.publish(CONFIG_TOPIC_waterEc, String(parsed.waterEc, 2));
-      mqtt.publish(CONFIG_TOPIC_waterLevel, String(parsed.waterLevel, 2));
-      mqtt.publish(CONFIG_TOPIC_waterPresent, String(parsed.waterPresent ? "1" : "0"));
-
-      Serial.println("========================");
+      else {
+          Serial.println("| Type inconnu");
+      }
   }
+
+  delay(10); // Petit délai pour éviter de surcharger le processeur
+
+  // send MQTT
+  //mqtt.publish(CONFIG_TOPIC_waterTemp, String(parsed.waterTemp, 2));
+  //mqtt.publish(CONFIG_TOPIC_waterEc, String(parsed.waterEc, 2));
+  //mqtt.publish(CONFIG_TOPIC_waterLevel, String(parsed.waterLevel, 2));
+  //mqtt.publish(CONFIG_TOPIC_waterPresent, String(parsed.waterPresent ? "1" : "0"));
+
+  //Serial.println("========================");
 }
