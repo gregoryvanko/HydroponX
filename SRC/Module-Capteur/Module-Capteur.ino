@@ -2,13 +2,14 @@
 
 #include <Arduino.h>
 #include "Config.h"
-#include "SensorData.h"
 #include "SensorTemperature.h"
 #include "SensorWaterPresent.h"
 #include "SensorSonar.h"
 #include "SensorTDS.h"
-#include "espnow_comm.h"
+#include "CANManager.h"
 
+// Crée une instance du gestionnaire CAN
+CANManager can;
 
 // Definition des sensors
 SensorTemperature SensorTemperature1(CONFIG_PIN_DS18B20);
@@ -34,11 +35,12 @@ void setup() {
   SensorSonar1.begin();
   SensorTDS1.begin();
 
-  // ESP-NOW
-  if (!espnowComm.begin(RECEIVER_MAC, false)) {
-      Serial.println("FATAL : Initialisation ESP-NOW échouée. Redémarrage...");
-      delay(3000);
-      ESP.restart();
+  // Initialisation du bus CAN
+  if (!can.begin(16, 17, 1000000)) {
+      Serial.println("ERREUR: Impossible d'initialiser le CAN!");
+      while (1) {
+          delay(100);
+      }
   }
 
   // Setup done
@@ -53,34 +55,26 @@ void loop() {
   if (now - lastMesure >= CONFIG_MESURE_INTERVAL){
     // Actualisation de la mesure du temps
     lastMesure = now;
-
-    // Init Sensor Data
-    SensorData_t data = {
-        .waterTemp    = 0.0f,
-        .waterEc      = 0.0f,
-        .waterLevel   = 0.0f,
-        .waterPresent = false,
-        .timestamp    = millis()
-    };
     
     // Mesure des capteurs
-    data.timestamp = now;
-    data.waterTemp = SensorTemperature1.read();
-    data.waterPresent = SensorWaterPresent1.read();
-    data.waterLevel = SensorSonar1.measureMedianCm(9);
-    data.waterEc = SensorTDS1.readEC(data.waterTemp);
+    float waterTemp = SensorTemperature1.read();
+    bool waterPresent = SensorWaterPresent1.read();
+    float waterLevel = SensorSonar1.measureMedianCm(9);
+    float waterEc = SensorTDS1.readEC(waterTemp);
 
     // Print mesures
     Serial.printf("[DATA] Temp=%.2f°C  EC=%.2fmS/cm  Niveau=%.1fcm  Flux=%s\n",
-                  data.waterTemp,
-                  data.waterEc,
-                  data.waterLevel,
-                  data.waterPresent ? "OUI" : "NON");
-    
-    // Sérialisation data
-    String dataSerialized = sensorDataToString(data);
+                  waterTemp,
+                  waterEc,
+                  waterLevel,
+                  waterPresent ? "OUI" : "NON");
 
-    // Send ESP-NOW
-    espnowComm.sendMessage(dataSerialized);
+    if (can.sendFloat(0x101, waterLevel)) {
+        Serial.printf("Float envoyé: ID=0x101, Value=%.2f\n", waterLevel);
+    } else {
+        Serial.printf("Erreur lors de l'envoi du Float sur ID=0x101!\n");
+    }
+    delay(10); // Petit délai entre les envois
+
   }
 }
