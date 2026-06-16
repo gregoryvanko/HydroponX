@@ -1,12 +1,11 @@
 #pragma once
 
 // ── PIN -──────────────────────────────────────────────────────────────────────
-constexpr gpio_num_t CONFIG_PIN_CAN_TX = GPIO_NUM_21;
-constexpr gpio_num_t CONFIG_PIN_CAN_RX = GPIO_NUM_22;
+constexpr uint8_t CONFIG_PIN_CAN_TX = 17;
+constexpr uint8_t CONFIG_PIN_CAN_RX = 16;
 
 // ── Loop ──────────────────────────────────────────────────────────────────────
 constexpr uint16_t CONFIG_BAUDRATE = 9600;
-constexpr uint32_t CONFIG_MESURE_INTERVAL = 5000;
 
 // ── WiFi ──────────────────────────────────────────────────────────────────────
 constexpr char* CONFIG_WIFI_SSID     = "blacknet-IOT";
