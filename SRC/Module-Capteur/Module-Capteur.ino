@@ -27,7 +27,7 @@ void setup() {
   delay(1000);
 
   // Setup start
-  Serial.println("\nsetup: start");
+  Serial.println("\n[Setup] start");
 
   // Start sensor
   SensorTemperature1.begin();
@@ -36,15 +36,15 @@ void setup() {
   SensorTDS1.begin();
 
   // Initialisation du bus CAN
-  if (!can.begin(16, 17, 1000000)) {
-      Serial.println("ERREUR: Impossible d'initialiser le CAN!");
+  if (!can.begin(CONFIG_PIN_CAN_RX, CONFIG_PIN_CAN_TX, CONFIG_CAN_BAUDRATE)) {
+      Serial.println("[Setup] ERREUR: Impossible d'initialiser le CAN!");
       while (1) {
           delay(100);
       }
   }
 
   // Setup done
-  Serial.println("setup: done");
+  Serial.println("[Setup] done");
 }
 
 // ---loop-------------------------------------------------
@@ -62,19 +62,23 @@ void loop() {
     float waterLevel = SensorSonar1.measureMedianCm(9);
     float waterEc = SensorTDS1.readEC(waterTemp);
 
+    // Send Can
+    can.sendFloat(CONFIG_CAN_ID_waterTemp, waterTemp);
+    delay(10);
+    can.sendFloat(CONFIG_CAN_ID_waterEc, waterEc);
+    delay(10);
+    can.sendFloat(CONFIG_CAN_ID_waterLevel, waterLevel);
+    delay(10);
+    can.sendBool(CONFIG_CAN_ID_waterPresent, waterPresent);
+    delay(10);
+
     // Print mesures
-    Serial.printf("[DATA] Temp=%.2f°C  EC=%.2fmS/cm  Niveau=%.1fcm  Flux=%s\n",
+    Serial.printf("Send CAN => Temp=%.2f°C  EC=%.2fmS/cm  Niveau=%.1fcm  Flux=%s\n",
                   waterTemp,
                   waterEc,
                   waterLevel,
                   waterPresent ? "OUI" : "NON");
 
-    if (can.sendFloat(0x101, waterLevel)) {
-        Serial.printf("Float envoyé: ID=0x101, Value=%.2f\n", waterLevel);
-    } else {
-        Serial.printf("Erreur lors de l'envoi du Float sur ID=0x101!\n");
-    }
-    delay(10); // Petit délai entre les envois
 
   }
 }

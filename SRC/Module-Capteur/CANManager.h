@@ -1,6 +1,4 @@
-#ifndef CAN_MANAGER_H
-#define CAN_MANAGER_H
-
+#pragma once
 #include <Arduino.h>
 #include <driver/twai.h>
 
@@ -27,7 +25,10 @@ public:
      */
     enum DataType {
         DATA_BOOL,
-        DATA_FLOAT
+        DATA_FLOAT,
+        DATA_INT16,
+        DATA_INT32,
+        DATA_UNKNOWN
     };
 
     /**
@@ -77,6 +78,22 @@ public:
     bool sendFloat(uint32_t id, float value);
 
     /**
+     * @brief Envoie une valeur entière 16 bits signée sur le bus CAN
+     * @param id Identifiant du message CAN (11 bits ou 29 bits)
+     * @param value Valeur int16_t à envoyer (-32768 à 32767)
+     * @return true si l'envoi a réussi, false sinon
+     */
+    bool sendInt16(uint32_t id, int16_t value);
+ 
+    /**
+     * @brief Envoie une valeur entière 32 bits signée sur le bus CAN
+     * @param id Identifiant du message CAN (11 bits ou 29 bits)
+     * @param value Valeur int32_t à envoyer
+     * @return true si l'envoi a réussi, false sinon
+     */
+    bool sendInt32(uint32_t id, int32_t value);
+
+    /**
      * @brief Reçoit un message du bus CAN (non bloquant)
      * @param message Structure où stocker le message reçu
      * @return true si un message a été reçu, false sinon
@@ -110,13 +127,50 @@ public:
     static float decodeFloat(const CANMessage &message);
 
     /**
-     * @brief Configure le filtre d'acceptation des messages
-     * @param id ID du message à accepter
-     * @param mask Masque de filtrage
-     * @param idExtended true pour les identifiants 29 bits, false pour 11 bits
-     * @return true si la configuration a réussi
+     * @brief Décodifie un message CAN contenant un entier 16 bits
+     * @param message Message CAN reçu
+     * @return Valeur int16_t décodée
      */
-    bool setFilter(uint32_t id, uint32_t mask, bool idExtended = false);
+    static int16_t decodeInt16(const CANMessage &message);
+ 
+    /**
+     * @brief Décodifie un message CAN contenant un entier 32 bits
+     * @param message Message CAN reçu
+     * @return Valeur int32_t décodée
+     */
+    static int32_t decodeInt32(const CANMessage &message);
+
+    /**
+     * @brief Configure un filtre hardware pour accepter un range continu d'IDs CAN
+     * @details Utilise les registres de filtre hardware du TWAI pour une efficacité maximale.
+     *          Permet de filtrer les messages dont l'ID est dans une plage donnée.
+     *          NOTE: Doit être appelé AVANT begin()
+     * @param idStart ID de début de la plage (inclus)
+     * @param idEnd ID de fin de la plage (inclus)
+     * @param useExtendedId true pour les identifiants 29 bits, false pour 11 bits (défaut)
+     * @return true si la configuration a réussi, false sinon
+     * 
+     * @example
+     * can.setFilterRange(0x100, 0x10F);  // Accepte les IDs de 0x100 à 0x10F
+     * can.begin();
+     */
+    bool setFilterRange(uint32_t idStart, uint32_t idEnd, bool useExtendedId = false);
+ 
+    /**
+     * @brief Configure un filtre hardware pour accepter un ID unique avec masque personnalisé
+     * @details Version avancée pour un contrôle fin du filtrage hardware
+     *          NOTE: Doit être appelé AVANT begin()
+     * @param id ID du message à accepter
+     * @param mask Masque de filtrage (1 = ignorer le bit, 0 = vérifier le bit)
+     * @param useExtendedId true pour les identifiants 29 bits, false pour 11 bits (défaut)
+     * @return true si la configuration a réussi
+     * 
+     * @example
+     * // Accepter les IDs dont les bits 3-0 varient librement
+     * can.setFilterMask(0x100, 0x7F0);
+     * can.begin();
+     */
+    bool setFilterMask(uint32_t id, uint32_t mask, bool useExtendedId = false);
 
 private:
     CANStatus status;
@@ -137,6 +191,32 @@ private:
      * @return Valeur float
      */
     static float bytesToFloat(const uint8_t *bytes);
-};
 
-#endif // CAN_MANAGER_H
+    /**
+     * @brief Convertit un int16_t en tableau de 2 bytes (big-endian)
+     * @param value Valeur int16_t
+     * @param bytes Tableau de 2 bytes (sortie)
+     */
+    static void int16ToBytes(int16_t value, uint8_t *bytes);
+ 
+    /**
+     * @brief Convertit un tableau de 2 bytes en int16_t (big-endian)
+     * @param bytes Tableau de 2 bytes
+     * @return Valeur int16_t
+     */
+    static int16_t bytesToInt16(const uint8_t *bytes);
+ 
+    /**
+     * @brief Convertit un int32_t en tableau de 4 bytes (big-endian)
+     * @param value Valeur int32_t
+     * @param bytes Tableau de 4 bytes (sortie)
+     */
+    static void int32ToBytes(int32_t value, uint8_t *bytes);
+ 
+    /**
+     * @brief Convertit un tableau de 4 bytes en int32_t (big-endian)
+     * @param bytes Tableau de 4 bytes
+     * @return Valeur int32_t
+     */
+    static int32_t bytesToInt32(const uint8_t *bytes);
+};
