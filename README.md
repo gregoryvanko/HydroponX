@@ -56,24 +56,24 @@ Le second module:
 ### Cablage
 | Composant         | Broche ESP32 | Remarques                          |
 |-------------------|--------------|------------------------------------|
-| Relais pompe      | GPIO 26      | HIGH = pompe ON                    |
-| Relais VCC        | 5V           |                                    |
-| Relais GND        | GND          |                                      |
+| Relais pompe1     | GPIO 32      | LOW = pompe ON                     |
+| Relais pompe2     | GPIO 33      | LOW = pompe ON                     |
+| Relais VCC        | 3.3V         |                                    |
+| Relais GND        | GND          |                                    |
 
 ### Topics MQTT publiés par Module Gateway
 | Topic                 | Valeur exemple | Description              |
 |-----------------------|----------------|--------------------------|
-| `hydro1/temperature`  | `22.50`        | Température eau (°C)     |
-| `hydro1/ec`           | `1.850`        | Conductivité (mS/cm)     |
-| `hydro1/water_level`  | `75`           | Niveau eau (%)           |
-| `hydro1/flow_present` | `true`         | Flux présent (bool)      |
-| `hydro1/pump_state`   | `ON`           | État relais pompe (bool) |
-| `hydro/alerts`        | `ALERTE: …`    | Alertes système (string  |
+| `hydro1/waterTemp  `  | `22.50`        | Température eau (°C)     |
+| `hydro1/waterEc`      | `1.850`        | Conductivité (mS/cm)     |
+| `hydro1/waterLevel `  | `75`           | Niveau eau (%)           |
+| `hydro1/waterPresent` | `true`         | Flux présent (bool)      |
 
 ### Topics MQTT souscrit par Module Gateway
-| Topic                 | Valeurs acceptées | Description                  |
-|-----------------------|-------------------|------------------------------|
-| `hydro1/command`      | `JSON`            | Contrôle pompe, commande...  |
+| Topic                 | Valeurs acceptées | Description                    |
+|-----------------------|-------------------|--------------------------------|
+| `hydro1/cmd/out1`     | `0`               | Contrôle relay1, (0=Off, 1=On) |
+| `hydro1/cmd/out2`     | `0`               | Contrôle relay2, (0=Off, 1=On) |
 
 ---
 
@@ -98,17 +98,5 @@ void loop() {}
 Le capteur EC doit être étalonné avec des solutions étalon (ex. 1.413 mS/cm).
 Mesurez la tension en sortie du capteur dans la solution étalon et ajustez
 `EC_CALIBRATION_K` pour que la valeur calculée corresponde.
-
----
-
-## Notes sur ESP-NOW + WiFi simultanés
-
-Les deux protocoles utilisent la même radio WiFi. Pour qu'ils coexistent :
-- Module 1 : `WiFi.mode(WIFI_STA)` + `WiFi.disconnect()` (pas de connexion AP)
-- Module 2 : `WiFi.mode(WIFI_STA)` + connexion AP normale
-
-Les deux modules doivent être sur le **même canal WiFi** (par défaut canal 1).
-Si votre routeur utilise un canal différent, ajustez `peerInfo.channel` dans Module 1
-ou forcez le canal dans `esp_now_add_peer`.
 
 ---
