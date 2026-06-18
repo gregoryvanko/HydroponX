@@ -3,20 +3,22 @@
 // ── PIN -──────────────────────────────────────────────────────────────────────
 constexpr uint8_t CONFIG_PIN_CAN_TX = 17;
 constexpr uint8_t CONFIG_PIN_CAN_RX = 16;
+constexpr uint8_t CONFIG_PIN_RELAY1 = 32;
+constexpr uint8_t CONFIG_PIN_RELAY2 = 33;
 
 // ── Loop ──────────────────────────────────────────────────────────────────────
 constexpr uint16_t CONFIG_BAUDRATE = 9600;
 
 // ── WiFi ──────────────────────────────────────────────────────────────────────
-constexpr char* CONFIG_WIFI_SSID     = "xxx-IOT";
-constexpr char* CONFIG_WIFI_PASSWORD = "xxx";
+constexpr char* CONFIG_WIFI_SSID     = "blacknet-IOT";
+constexpr char* CONFIG_WIFI_PASSWORD = "gregoryvk99iot";
 
 // ── MQTT ──────────────────────────────────────────────────────────────────────
 static const char* CONFIG_MQTT_BROKER   = "192.168.40.40";  // IP ou hostname du broker
 static const uint16_t CONFIG_MQTT_PORT  = 1883;
 static const char* CONFIG_MQTT_CLIENT   = "ESP32-Hydro1";
-static const char* CONFIG_MQTT_USER     = "xxxx";     // nullptr si pas d'auth
-static const char* CONFIG_MQTT_PASS     = "yyyy";
+static const char* CONFIG_MQTT_USER     = "gregory";     // nullptr si pas d'auth
+static const char* CONFIG_MQTT_PASS     = "gregory";
  
 // ── MQTT Topics ───────────────────────────────────────────────────────────────
 static const char* CONFIG_TOPIC_waterTemp    = "hydro1/waterTemp";

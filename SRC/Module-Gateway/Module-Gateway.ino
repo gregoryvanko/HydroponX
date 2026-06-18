@@ -6,29 +6,33 @@
 #include "WifiHelper.h"
 #include "MqttGateway.h"
 #include "CANManager.h"
+#include "RelayController.h"
 
 // ── Objets globaux ────────────────────────────────────────────────────────────
 CANManager can;
 WiFiClient  wifiClient;
 MqttGateway mqtt(wifiClient, CONFIG_MQTT_BROKER, CONFIG_MQTT_PORT, CONFIG_MQTT_CLIENT);
+RelayController relay1(CONFIG_PIN_RELAY1, true);
+RelayController relay2(CONFIG_PIN_RELAY2, true);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Callback réception MQTT
 // ─────────────────────────────────────────────────────────────────────────────
 void onMqttMessage(const String& topic, const String& payload) {
-    Serial.printf("[APP] Message reçu — topic: %s | payload: %s\n",
+    Serial.printf("Message MQTT reçu — topic: %s | payload: %s\n",
                   topic.c_str(), payload.c_str());
  
-    // Exemple de dispatch par topic
-    if (topic == "hydro/cmd/pump") {
+    if (topic == "hydro1/cmd/out1") {
       bool on = (payload == "ON" || payload == "1");
-      Serial.printf("[APP] Commande pompe : %s\n", on ? "MARCHE" : "ARRÊT");
-      // digitalWrite(PIN_PUMP, on ? HIGH : LOW);
+      Serial.printf("Commande Relay1 : %s\n", on ? "MARCHE" : "ARRÊT");
+      on ? relay1.turnOn() : relay1.turnOff();
+    } else if (topic == "hydro1/cmd/out2"){
+      bool on = (payload == "ON" || payload == "1");
+      Serial.printf("Commande Relay2 : %s\n", on ? "MARCHE" : "ARRÊT");
+      on ? relay2.turnOn() : relay2.turnOff();
     }
-    else if (topic == "hydro/cmd/light") {
-      // …
-    } else {
-      Serial.printf("[APP] topic not found");
+    else {
+      Serial.printf("Topic not found");
     }
 }
 
@@ -95,8 +99,6 @@ void setup() {
   mqtt.subscribe(CONFIG_TOPIC_CMD, 1);
   mqtt.publish(CONFIG_TOPIC_STATUS, "online", /*retain=*/true);
 
-  // Initialisation du filtre CAN
-  can.setFilterRange(CONFIG_CAN_ID_waterTemp, CONFIG_CAN_ID_waterPresent);
   // Initialisation du bus CAN
   if (!can.begin(CONFIG_PIN_CAN_RX, CONFIG_PIN_CAN_TX, CONFIG_CAN_BAUDRATE)) {
       Serial.println("[Setup] ERREUR: Impossible d'initialiser le CAN!");
@@ -104,6 +106,10 @@ void setup() {
           delay(100);
       }
   }
+
+  // Setup Relay
+  relay1.begin();
+  relay2.begin();
 
   // Setup done
   Serial.println("[Setup] done");
