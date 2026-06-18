@@ -95,6 +95,8 @@ void setup() {
   mqtt.subscribe(CONFIG_TOPIC_CMD, 1);
   mqtt.publish(CONFIG_TOPIC_STATUS, "online", /*retain=*/true);
 
+  // Initialisation du filtre CAN
+  can.setFilterRange(CONFIG_CAN_ID_waterTemp, CONFIG_CAN_ID_waterPresent);
   // Initialisation du bus CAN
   if (!can.begin(CONFIG_PIN_CAN_RX, CONFIG_PIN_CAN_TX, CONFIG_CAN_BAUDRATE)) {
       Serial.println("[Setup] ERREUR: Impossible d'initialiser le CAN!");
