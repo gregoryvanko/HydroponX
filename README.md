@@ -69,7 +69,10 @@ Module Gateway:
 | Module CAN Rx     | GPIO 16      |                                    |
 | Module CAN Tx     | GPIO 17      |                                    |
 
-### Topics MQTT publiés par Module Gateway
+---
+
+## Topics MQTT
+### Publiés par Module Gateway
 | Topic                 | Valeur exemple | Description              |
 |-----------------------|----------------|--------------------------|
 | `hydro1/waterTemp  `  | `22.50`        | Température eau (°C)     |
@@ -77,7 +80,7 @@ Module Gateway:
 | `hydro1/waterLevel `  | `75`           | Niveau eau (%)           |
 | `hydro1/waterPresent` | `true`         | Flux présent (bool)      |
 
-### Topics MQTT souscrit par Module Gateway
+### Souscrit par Module Gateway
 | Topic                 | Valeurs acceptées | Description                    |
 |-----------------------|-------------------|--------------------------------|
 | `hydro1/cmd/out1`     | `0`               | Contrôle relay1, (0=Off, 1=On) |
