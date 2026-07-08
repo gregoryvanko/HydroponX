@@ -11,14 +11,14 @@ constexpr uint16_t CONFIG_BAUDRATE = 9600;
 
 // ── WiFi ──────────────────────────────────────────────────────────────────────
 constexpr char* CONFIG_WIFI_SSID     = "blacknet-IOT";
-constexpr char* CONFIG_WIFI_PASSWORD = "gregoryvk99iot";
+constexpr char* CONFIG_WIFI_PASSWORD = "xxx";
 
 // ── MQTT ──────────────────────────────────────────────────────────────────────
 static const char* CONFIG_MQTT_BROKER   = "192.168.40.40";  // IP ou hostname du broker
 static const uint16_t CONFIG_MQTT_PORT  = 1883;
 static const char* CONFIG_MQTT_CLIENT   = "ESP32-Hydro1";
-static const char* CONFIG_MQTT_USER     = "gregory";     // nullptr si pas d'auth
-static const char* CONFIG_MQTT_PASS     = "gregory";
+static const char* CONFIG_MQTT_USER     = "xxx";     // nullptr si pas d'auth
+static const char* CONFIG_MQTT_PASS     = "xxx";
  
 // ── MQTT Topics ───────────────────────────────────────────────────────────────
 static const char* CONFIG_TOPIC_waterTemp    = "hydro1/waterTemp";
