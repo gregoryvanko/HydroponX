@@ -45,8 +45,8 @@ Module Gateway:
 | Niveau eau GND      | GND          |                                    |
 | Module CAN GND      | GND          |                                    |
 | Module CAN VCC      | 3.3V         |                                    |
-| Module CAN xx       | GPIO xx      |                                    |
-| Module CAN xx       | GPIO xx      |                                    |
+| Module CAN Rx       | GPIO 16      |                                    |
+| Module CAN Tx       | GPIO 17      |                                    |
 
 ![Description](Assets/Images/ModuleCapteurs.png)
 
@@ -66,8 +66,8 @@ Module Gateway:
 | Relais GND        | GND          |                                    |
 | Module CAN GND    | GND          |                                    |
 | Module CAN VCC    | 3.3V         |                                    |
-| Module CAN xx     | GPIO xx      |                                    |
-| Module CAN xx     | GPIO xx      |                                    |
+| Module CAN Rx     | GPIO 16      |                                    |
+| Module CAN Tx     | GPIO 17      |                                    |
 
 ### Topics MQTT publiés par Module Gateway
 | Topic                 | Valeur exemple | Description              |
