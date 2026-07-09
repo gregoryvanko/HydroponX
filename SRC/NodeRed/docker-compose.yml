@@ -1,5 +1,5 @@
 services:
-  nodered:
+  node-red:
     image: nodered/node-red:latest
     container_name: noderedhydroponx
     restart: unless-stopped
