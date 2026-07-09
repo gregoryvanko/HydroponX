@@ -8,6 +8,6 @@ services:
     ports:
       - "1880:1880"
     environment:
-      - TZ=Europe/Paris
+      - TZ=Europe/Brussels
     volumes:
       - ./data:/data
