@@ -1,0 +1,11 @@
+# Ignore tout
+*
+
+# Autorise la traversée des dossiers
+!*/
+!data/
+
+# Autorise le fichier ciblé
+!data/package.json
+!data/flows.json
+!data/settings.js
