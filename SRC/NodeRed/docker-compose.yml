@@ -3,8 +3,9 @@ version: "3.8"
 services:
   nodered:
     image: nodered/node-red:latest
-    container_name: nodered
+    container_name: noderedhydroponx
     restart: unless-stopped
+    network_mode: host
     ports:
       - "1880:1880"
     environment:
