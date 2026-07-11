@@ -11,7 +11,7 @@ constexpr uint8_t CONFIG_PIN_CAN_RX = 16;
 
 // ── Loop ──────────────────────────────────────────────────────────────────────
 constexpr uint16_t CONFIG_BAUDRATE = 9600;
-constexpr uint32_t CONFIG_MESURE_INTERVAL = 5000;
+constexpr uint32_t CONFIG_MESURE_INTERVAL = 60000;
 
 // ── CAN -──────────────────────────────────────────────────────────────────────
 constexpr uint32_t CONFIG_CAN_BAUDRATE        = 500000;
