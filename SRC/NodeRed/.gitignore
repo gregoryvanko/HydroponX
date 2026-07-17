@@ -6,6 +6,7 @@
 !data/
 
 # Autorise le fichier ciblé
+!.envTemp
 !data/package.json
 !data/flows.json
 !data/settings.js
