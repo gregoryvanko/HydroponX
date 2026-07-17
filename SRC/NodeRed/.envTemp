@@ -4,3 +4,7 @@ INFLUX_TOKEN=VKo5S05Tx6v7mJ-xxx
 INFLUX_URL=https://influxdbxxx
 INFLUX_ORGA=vankoxx
 INFLUX_BUCKET=Rix
+MQTT_URL=https://mqtt.xxx
+MQTT_PORT=443
+MQTT_USER=xxx
+MQTT_PAASSWORD=xxx

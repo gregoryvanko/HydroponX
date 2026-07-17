@@ -1,26 +1,459 @@
 [
     {
-        "id": "ed8841521eff836e",
+        "id": "41c985e7d9b48edd",
         "type": "tab",
-        "label": "Flux 1",
+        "label": "Présence eau",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "0892519f6910be33",
-        "type": "debug",
-        "z": "ed8841521eff836e",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 220,
+        "id": "ed8841521eff836e",
+        "type": "tab",
+        "label": "Telegram",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "311d0db22d11f271",
+        "type": "group",
+        "z": "41c985e7d9b48edd",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#767676"
+        },
+        "nodes": [
+            "6b83bd1b2b65eb51",
+            "a0a2920f16a776d2",
+            "8844d5e90d2d99c8",
+            "0c5b47ae55c79f79"
+        ],
+        "x": 114,
+        "y": 339,
+        "w": 572,
+        "h": 182
+    },
+    {
+        "id": "c0ac1c1ca1df5fc3",
+        "type": "telegram bot",
+        "botname": "VanKoEventBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "daa99494cc9a0975",
+        "type": "mqtt-broker",
+        "name": "Vanko.be",
+        "broker": "${MQTT_URL}",
+        "port": "${MQTT_PORT}",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1f1770b689ba8d7a",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "482b6d0f7a074d75",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "a0d8109001cbeb4a",
+        "type": "ui-page",
+        "name": "Home",
+        "ui": "1f1770b689ba8d7a",
+        "path": "/Home",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "482b6d0f7a074d75",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "7d4e55710993f946",
+        "type": "ui-group",
+        "name": "Group 1",
+        "page": "a0d8109001cbeb4a",
+        "width": "3",
+        "height": 1,
+        "order": 1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "a8e0030d5550f71f",
+        "type": "mqtt in",
+        "z": "41c985e7d9b48edd",
+        "name": "hydro1/waterPresent",
+        "topic": "hydro1/waterPresent",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "daa99494cc9a0975",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "748196d233ab6447",
+                "912ecccdc86d1924",
+                "ce3d6f9cd1486a52"
+            ]
+        ]
+    },
+    {
+        "id": "748196d233ab6447",
+        "type": "ui-led",
+        "z": "41c985e7d9b48edd",
+        "name": "Eau",
+        "group": "7d4e55710993f946",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Présence eau",
+        "labelPlacement": "left",
+        "labelAlignment": "flex-start",
+        "states": [
+            {
+                "value": "0",
+                "valueType": "num",
+                "color": "#ff0000"
+            },
+            {
+                "value": "1",
+                "valueType": "num",
+                "color": "#00ff00"
+            },
+            {
+                "value": "2",
+                "valueType": "num",
+                "color": "#999999"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": false,
+        "showGlow": true,
+        "x": 530,
         "y": 160,
         "wires": []
+    },
+    {
+        "id": "6b83bd1b2b65eb51",
+        "type": "inject",
+        "z": "41c985e7d9b48edd",
+        "g": "311d0db22d11f271",
+        "name": "Interval",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 420,
+        "wires": [
+            [
+                "a0a2920f16a776d2"
+            ]
+        ]
+    },
+    {
+        "id": "912ecccdc86d1924",
+        "type": "function",
+        "z": "41c985e7d9b48edd",
+        "name": "Save data",
+        "func": "let Name = \"PresenceEau1\"\n\nlet AllData ={ time: new Date().getTime(), data: msg.payload }\nglobal.set(Name, AllData)",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a0a2920f16a776d2",
+        "type": "function",
+        "z": "41c985e7d9b48edd",
+        "g": "311d0db22d11f271",
+        "name": "Delta time",
+        "func": "let time = msg.payload\nlet Name = \"PresenceEau1\"\n\nlet AllData = global.get(Name) || null\nif (AllData != null){\n    let delta = (time - AllData.time) / 1000\n    let rounddelta = Math.round(delta)\n    if (rounddelta > 60) { \n        msg.payload = 2;\n        return msg;\n    }\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 420,
+        "wires": [
+            [
+                "748196d233ab6447",
+                "0c5b47ae55c79f79"
+            ]
+        ]
+    },
+    {
+        "id": "8844d5e90d2d99c8",
+        "type": "comment",
+        "z": "41c985e7d9b48edd",
+        "g": "311d0db22d11f271",
+        "name": "Vérification d'un message régulier ",
+        "info": "",
+        "x": 280,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "0c5b47ae55c79f79",
+        "type": "function",
+        "z": "41c985e7d9b48edd",
+        "g": "311d0db22d11f271",
+        "name": "Message Telegram",
+        "func": "if(msg.payload == 2){\n   msg.payload = \"Message WaterPresent non recu\"\n   return msg; \n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 480,
+        "wires": [
+            [
+                "cd378751a743b76a"
+            ]
+        ]
+    },
+    {
+        "id": "ce3d6f9cd1486a52",
+        "type": "function",
+        "z": "41c985e7d9b48edd",
+        "name": "Send Telegram if off",
+        "func": "if(msg.payload == 0){\n   msg.payload = \"Flux d'eau arreté\"\n   return msg; \n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 260,
+        "wires": [
+            [
+                "cd378751a743b76a"
+            ]
+        ]
+    },
+    {
+        "id": "cd378751a743b76a",
+        "type": "link out",
+        "z": "41c985e7d9b48edd",
+        "name": "WaterPresent",
+        "mode": "link",
+        "links": [
+            "3af6fec8a8bdd13f"
+        ],
+        "x": 815,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e5e65f1227be441a",
+        "type": "inject",
+        "z": "ed8841521eff836e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Message de test HydroponX ",
+        "payloadType": "str",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "bc0942f7499371cf"
+            ]
+        ]
+    },
+    {
+        "id": "bc0942f7499371cf",
+        "type": "function",
+        "z": "ed8841521eff836e",
+        "name": "Build msg",
+        "func": "let message = msg.payload\nmsg.payload = {};\nmsg.payload.chatId = env.get(\"TELEGRAM_CHATID\")\nmsg.payload.type = 'message';\nmsg.payload.content = '<b><u>HydroponX</u></b> \\n' + message;\nmsg.payload.options = { parse_mode: \"HTML\" };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 280,
+        "wires": [
+            [
+                "541e6524911703f0"
+            ]
+        ]
+    },
+    {
+        "id": "541e6524911703f0",
+        "type": "telegram sender",
+        "z": "ed8841521eff836e",
+        "name": "VanKoEventBot",
+        "bot": "c0ac1c1ca1df5fc3",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3af6fec8a8bdd13f",
+        "type": "link in",
+        "z": "ed8841521eff836e",
+        "name": "Telegram",
+        "links": [
+            "cd378751a743b76a"
+        ],
+        "x": 145,
+        "y": 300,
+        "wires": [
+            [
+                "bc0942f7499371cf"
+            ]
+        ]
     }
 ]

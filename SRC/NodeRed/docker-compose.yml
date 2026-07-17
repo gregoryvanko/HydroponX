@@ -17,6 +17,10 @@ services:
       - INFLUX_BUCKET=${INFLUX_BUCKET:?error}
       - TELEGRAM_TOKEN=${TELEGRAM_TOKEN:?error}
       - TELEGRAM_CHATID=${TELEGRAM_CHATID:?error}
+      - MQTT_URL=${MQTT_URL:?error}
+      - MQTT_PORT=${MQTT_PORT:?error}
+      - MQTT_USER=${MQTT_USER:?error}
+      - MQTT_PAASSWORD=${MQTT_PAASSWORD:?error}
     volumes:
       - ./data:/data
 
