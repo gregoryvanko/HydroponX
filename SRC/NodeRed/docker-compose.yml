@@ -2,11 +2,18 @@ services:
   node-red:
     image: nodered/node-red:latest
     container_name: noderedhydroponx
+    user: "0"
+    privileged: true
     restart: unless-stopped
-    network_mode: host
+    networks:
+      - hydro
     ports:
       - "1881:1880"
     environment:
       - TZ=Europe/Brussels
     volumes:
       - ./data:/data
+
+networks:
+  hydro:
+    driver: bridge
