@@ -11,6 +11,12 @@ services:
       - "1881:1880"
     environment:
       - TZ=Europe/Brussels
+      - INFLUX_TOKEN=${INFLUX_TOKEN:?error}
+      - INFLUX_URL=${INFLUX_URL:?error}
+      - INFLUX_ORGA=${INFLUX_ORGA:?error}
+      - INFLUX_BUCKET=${INFLUX_BUCKET:?error}
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN:?error}
+      - TELEGRAM_CHATID=${TELEGRAM_CHATID:?error}
     volumes:
       - ./data:/data
 
