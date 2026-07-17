@@ -1,0 +1,26 @@
+[
+    {
+        "id": "ed8841521eff836e",
+        "type": "tab",
+        "label": "Flux 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0892519f6910be33",
+        "type": "debug",
+        "z": "ed8841521eff836e",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 220,
+        "y": 160,
+        "wires": []
+    }
+]

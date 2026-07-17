@@ -2,5 +2,10 @@
     "name": "node-red-project",
     "description": "A Node-RED Project",
     "version": "0.0.1",
-    "private": true
+    "private": true,
+    "dependencies": {
+        "@flowfuse/node-red-dashboard": "~1.30.2",
+        "node-red-contrib-telegrambot": "~18.0.1",
+        "node-red-contrib-ui-led2": "~0.4.20"
+    }
 }
