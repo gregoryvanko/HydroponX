@@ -16,6 +16,30 @@
         "env": []
     },
     {
+        "id": "872e3662c51eee80",
+        "type": "tab",
+        "label": "Tremperature eau",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5d7833fcdcb26ca1",
+        "type": "tab",
+        "label": "EC eau",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "da80f803693a2333",
+        "type": "tab",
+        "label": "Level eau",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "ed8841521eff836e",
         "type": "tab",
         "label": "Telegram",
@@ -43,6 +67,52 @@
         ],
         "x": 54,
         "y": 259,
+        "w": 352,
+        "h": 122
+    },
+    {
+        "id": "4cf6b77091ebe3c6",
+        "type": "group",
+        "z": "872e3662c51eee80",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#767676"
+        },
+        "nodes": [
+            "c90e631e753a5a2c",
+            "10f30a1621cb426e",
+            "db3b0711827393b3"
+        ],
+        "x": 54,
+        "y": 239,
+        "w": 352,
+        "h": 122
+    },
+    {
+        "id": "717321e96f861e21",
+        "type": "group",
+        "z": "5d7833fcdcb26ca1",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#767676"
+        },
+        "nodes": [
+            "2f65e4f032d0b946",
+            "371715a016120383",
+            "b9d819c138e53317"
+        ],
+        "x": 34,
+        "y": 239,
         "w": 352,
         "h": 122
     },
@@ -182,9 +252,51 @@
     {
         "id": "7d4e55710993f946",
         "type": "ui-group",
-        "name": "Group 1",
+        "name": "Status",
         "page": "a0d8109001cbeb4a",
-        "width": "3",
+        "width": "4",
+        "height": "1",
+        "order": 4,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "45ce10cadabed5c5",
+        "type": "ui-group",
+        "name": "Temperature",
+        "page": "a0d8109001cbeb4a",
+        "width": "4",
+        "height": "1",
+        "order": 2,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "a6cb245754b223a9",
+        "type": "ui-group",
+        "name": "EC",
+        "page": "a0d8109001cbeb4a",
+        "width": "4",
+        "height": 1,
+        "order": 3,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "fe54d5347d37dd43",
+        "type": "ui-group",
+        "name": "Level",
+        "page": "a0d8109001cbeb4a",
+        "width": "4",
         "height": 1,
         "order": 1,
         "showTitle": false,
@@ -200,8 +312,8 @@
         "name": "Status",
         "group": "7d4e55710993f946",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "0",
+        "height": "0",
         "label": "Gateway Status",
         "labelPlacement": "left",
         "labelAlignment": "flex-start",
@@ -493,6 +605,601 @@
         "wires": [
             [
                 "912ecccdc86d1924"
+            ]
+        ]
+    },
+    {
+        "id": "4a596acbb7b52ed9",
+        "type": "inject",
+        "z": "872e3662c51eee80",
+        "name": "Test 22.5",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "22.5",
+        "payloadType": "num",
+        "x": 140,
+        "y": 80,
+        "wires": [
+            [
+                "3187f93c2cf590d9"
+            ]
+        ]
+    },
+    {
+        "id": "e13948d8adf47fd3",
+        "type": "inject",
+        "z": "872e3662c51eee80",
+        "name": "Test 0",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 130,
+        "y": 40,
+        "wires": [
+            [
+                "3187f93c2cf590d9"
+            ]
+        ]
+    },
+    {
+        "id": "5d99428bfc69b6ce",
+        "type": "inject",
+        "z": "872e3662c51eee80",
+        "name": "Test 31.7",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "31.7",
+        "payloadType": "num",
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "3187f93c2cf590d9"
+            ]
+        ]
+    },
+    {
+        "id": "d589205c9781e8cf",
+        "type": "ui-gauge",
+        "z": "872e3662c51eee80",
+        "name": "Température",
+        "group": "45ce10cadabed5c5",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "4",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "rounded",
+        "title": "Température",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°c",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "5",
+                "color": "#0061fe",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "10",
+                "color": "#76bb40",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "35",
+                "color": "#e22400",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "5",
+        "max": "40",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 650,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b7635db424c0cd2",
+        "type": "mqtt in",
+        "z": "872e3662c51eee80",
+        "name": "hydro1/waterTemp",
+        "topic": "hydro1/waterTemp",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "daa99494cc9a0975",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "3187f93c2cf590d9"
+            ]
+        ]
+    },
+    {
+        "id": "3187f93c2cf590d9",
+        "type": "function",
+        "z": "872e3662c51eee80",
+        "name": "Save data",
+        "func": "let Name = \"TempEau1\"\n// sauver la nouvelle valeur\nlet NewData = { time: new Date().getTime(), data: msg.payload }\nglobal.set(Name, NewData)\n\nreturn msg",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 180,
+        "wires": [
+            [
+                "d589205c9781e8cf"
+            ]
+        ]
+    },
+    {
+        "id": "c90e631e753a5a2c",
+        "type": "inject",
+        "z": "872e3662c51eee80",
+        "g": "4cf6b77091ebe3c6",
+        "name": "Interval",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "10f30a1621cb426e"
+            ]
+        ]
+    },
+    {
+        "id": "10f30a1621cb426e",
+        "type": "function",
+        "z": "872e3662c51eee80",
+        "g": "4cf6b77091ebe3c6",
+        "name": "Delta time",
+        "func": "let time = msg.payload\nlet Name = \"TempEau1\"\n\nlet AllData = global.get(Name) || null\nif (AllData != null){\n    let delta = (time - AllData.time) / 1000\n    let rounddelta = Math.round(delta)\n    if (rounddelta > 60) { \n        msg.payload = 0;\n        return msg;\n    }\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 320,
+        "wires": [
+            [
+                "d589205c9781e8cf"
+            ]
+        ]
+    },
+    {
+        "id": "db3b0711827393b3",
+        "type": "comment",
+        "z": "872e3662c51eee80",
+        "g": "4cf6b77091ebe3c6",
+        "name": "Vérification d'un message régulier ",
+        "info": "",
+        "x": 220,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "029354998a48d2d3",
+        "type": "inject",
+        "z": "5d7833fcdcb26ca1",
+        "name": "Test 22.5",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "22.5",
+        "payloadType": "num",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "a99ec33b018cc093"
+            ]
+        ]
+    },
+    {
+        "id": "27c55976ad9f57c3",
+        "type": "inject",
+        "z": "5d7833fcdcb26ca1",
+        "name": "Test 0",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 110,
+        "y": 40,
+        "wires": [
+            [
+                "a99ec33b018cc093"
+            ]
+        ]
+    },
+    {
+        "id": "a19d943206027165",
+        "type": "inject",
+        "z": "5d7833fcdcb26ca1",
+        "name": "Test 31.7",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "31.7",
+        "payloadType": "num",
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "a99ec33b018cc093"
+            ]
+        ]
+    },
+    {
+        "id": "8c11b3334ddc89c8",
+        "type": "ui-gauge",
+        "z": "5d7833fcdcb26ca1",
+        "name": "EC",
+        "group": "a6cb245754b223a9",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "4",
+        "height": "4",
+        "gtype": "gauge-34",
+        "gstyle": "rounded",
+        "title": "EC",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "ppm",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "5",
+                "color": "#0061fe",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "10",
+                "color": "#76bb40",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "35",
+                "color": "#e22400",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "5",
+        "max": "40",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 610,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "03519cd0280468b8",
+        "type": "mqtt in",
+        "z": "5d7833fcdcb26ca1",
+        "name": "hydro1/waterEc",
+        "topic": "hydro1/waterEc",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "daa99494cc9a0975",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 180,
+        "wires": [
+            [
+                "a99ec33b018cc093"
+            ]
+        ]
+    },
+    {
+        "id": "a99ec33b018cc093",
+        "type": "function",
+        "z": "5d7833fcdcb26ca1",
+        "name": "Save data",
+        "func": "let Name = \"EcEau1\"\n// sauver la nouvelle valeur\nlet NewData = { time: new Date().getTime(), data: msg.payload }\nglobal.set(Name, NewData)\n\nreturn msg",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [
+                "8c11b3334ddc89c8"
+            ]
+        ]
+    },
+    {
+        "id": "2f65e4f032d0b946",
+        "type": "inject",
+        "z": "5d7833fcdcb26ca1",
+        "g": "717321e96f861e21",
+        "name": "Interval",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "371715a016120383"
+            ]
+        ]
+    },
+    {
+        "id": "371715a016120383",
+        "type": "function",
+        "z": "5d7833fcdcb26ca1",
+        "g": "717321e96f861e21",
+        "name": "Delta time",
+        "func": "let time = msg.payload\nlet Name = \"EcEau1\"\n\nlet AllData = global.get(Name) || null\nif (AllData != null){\n    let delta = (time - AllData.time) / 1000\n    let rounddelta = Math.round(delta)\n    if (rounddelta > 60) { \n        msg.payload = 0;\n        return msg;\n    }\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "8c11b3334ddc89c8"
+            ]
+        ]
+    },
+    {
+        "id": "b9d819c138e53317",
+        "type": "comment",
+        "z": "5d7833fcdcb26ca1",
+        "g": "717321e96f861e21",
+        "name": "Vérification d'un message régulier ",
+        "info": "",
+        "x": 200,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9be01126b50cd37d",
+        "type": "mqtt in",
+        "z": "da80f803693a2333",
+        "name": "hydro1/waterLevel",
+        "topic": "hydro1/waterLevel",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "daa99494cc9a0975",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "2ccc181c2a4166ab"
+            ]
+        ]
+    },
+    {
+        "id": "2ccc181c2a4166ab",
+        "type": "ui-gauge",
+        "z": "da80f803693a2333",
+        "name": "Level",
+        "group": "fe54d5347d37dd43",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "4",
+        "height": "4",
+        "gtype": "gauge-tank",
+        "gstyle": "needle",
+        "title": "Level",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "units",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#a8f5ff",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "15",
+                "color": "#55dbec",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "35",
+                "color": "#53b4fd",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "50",
+                "color": "#2397d1",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 470,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "38a63c1f75293428",
+        "type": "inject",
+        "z": "da80f803693a2333",
+        "name": "Test 0",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "2ccc181c2a4166ab"
+            ]
+        ]
+    },
+    {
+        "id": "a4840f28b62df240",
+        "type": "inject",
+        "z": "da80f803693a2333",
+        "name": "Test 70",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "70",
+        "payloadType": "num",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "2ccc181c2a4166ab"
             ]
         ]
     },
