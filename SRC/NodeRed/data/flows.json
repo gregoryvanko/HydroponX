@@ -1,5 +1,12 @@
 [
     {
+        "id": "flow_main",
+        "type": "tab",
+        "label": "MQTT Hydro1",
+        "disabled": false,
+        "info": "Flow de traitement des topics capteurs/+/temperature, flux, ec"
+    },
+    {
         "id": "7f9c2167413ca795",
         "type": "tab",
         "label": "Status",
@@ -48,32 +55,17 @@
         "env": []
     },
     {
-        "id": "311d0db22d11f271",
-        "type": "group",
-        "z": "41c985e7d9b48edd",
-        "style": {
-            "stroke": "#999999",
-            "stroke-opacity": "1",
-            "fill": "none",
-            "fill-opacity": "1",
-            "label": true,
-            "label-position": "nw",
-            "color": "#767676"
-        },
-        "nodes": [
-            "6b83bd1b2b65eb51",
-            "a0a2920f16a776d2",
-            "8844d5e90d2d99c8"
-        ],
-        "x": 54,
-        "y": 259,
-        "w": 352,
-        "h": 122
+        "id": "421713a84fde8e78",
+        "type": "tab",
+        "label": "Config",
+        "disabled": false,
+        "info": "",
+        "env": []
     },
     {
-        "id": "4cf6b77091ebe3c6",
+        "id": "dc7bf7b9f400efc3",
         "type": "group",
-        "z": "872e3662c51eee80",
+        "z": "421713a84fde8e78",
         "style": {
             "stroke": "#999999",
             "stroke-opacity": "1",
@@ -84,37 +76,70 @@
             "color": "#767676"
         },
         "nodes": [
-            "c90e631e753a5a2c",
-            "10f30a1621cb426e",
-            "db3b0711827393b3"
-        ],
-        "x": 54,
-        "y": 239,
-        "w": 352,
-        "h": 122
-    },
-    {
-        "id": "717321e96f861e21",
-        "type": "group",
-        "z": "5d7833fcdcb26ca1",
-        "style": {
-            "stroke": "#999999",
-            "stroke-opacity": "1",
-            "fill": "none",
-            "fill-opacity": "1",
-            "label": true,
-            "label-position": "nw",
-            "color": "#767676"
-        },
-        "nodes": [
-            "2f65e4f032d0b946",
-            "371715a016120383",
-            "b9d819c138e53317"
+            "e521297e4af549f7",
+            "412f74f7a466d098",
+            "f38e459f32aefaed",
+            "ec20a1324162e5bc",
+            "04551e6641ce06ab",
+            "7de78343d7c1d957"
         ],
         "x": 34,
-        "y": 239,
-        "w": 352,
-        "h": 122
+        "y": 119,
+        "w": 692,
+        "h": 202
+    },
+    {
+        "id": "4662f7c8ca9f7c4f",
+        "type": "group",
+        "z": "421713a84fde8e78",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#767676"
+        },
+        "nodes": [
+            "90c196fc035d0714",
+            "94aa2713fa9d2442",
+            "13fa2c1ea1fc486e",
+            "f9ea3a7ff6414bc6"
+        ],
+        "x": 34,
+        "y": 359,
+        "w": 572,
+        "h": 142
+    },
+    {
+        "id": "e3b0e4e973a8e083",
+        "type": "group",
+        "z": "421713a84fde8e78",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#767676"
+        },
+        "nodes": [
+            "364c9704b2c16b04",
+            "41a36379afc41a24",
+            "df6fca19a0614a8b",
+            "d3862c39c1e186c2",
+            "a2eedf97b13b909d",
+            "931fff214ad35a24",
+            "9dd59cc7530e54b4",
+            "c05787fabaa688d7",
+            "52060783657a00b1"
+        ],
+        "x": 34,
+        "y": 519,
+        "w": 932,
+        "h": 162
     },
     {
         "id": "c0ac1c1ca1df5fc3",
@@ -219,7 +244,7 @@
         "name": "HydroponiX",
         "ui": "1f1770b689ba8d7a",
         "path": "/HydroponiX",
-        "icon": "HydroponiX",
+        "icon": "home",
         "layout": "grid",
         "theme": "482b6d0f7a074d75",
         "breakpoints": [
@@ -246,8 +271,8 @@
         ],
         "order": 1,
         "className": "",
-        "visible": "true",
-        "disabled": "false"
+        "visible": true,
+        "disabled": false
     },
     {
         "id": "7d4e55710993f946",
@@ -255,7 +280,7 @@
         "name": "Status",
         "page": "a0d8109001cbeb4a",
         "width": "4",
-        "height": "4",
+        "height": "3",
         "order": 1,
         "showTitle": false,
         "className": "",
@@ -317,15 +342,387 @@
         "className": ""
     },
     {
-        "id": "d80bb94e4f51842c",
-        "type": "ui-spacer",
-        "group": "7d4e55710993f946",
-        "name": "spacer",
-        "tooltip": "",
-        "order": 4,
+        "id": "acf7d519167899b8",
+        "type": "ui-page",
+        "name": "Config",
+        "ui": "1f1770b689ba8d7a",
+        "path": "/Config",
+        "icon": "mdi-cog",
+        "layout": "grid",
+        "theme": "482b6d0f7a074d75",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "b34498e7f3d949a0",
+        "type": "ui-group",
+        "name": "Réservoir",
+        "page": "acf7d519167899b8",
         "width": "4",
-        "height": 1,
-        "className": ""
+        "height": "4",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "689a0e77105419d0",
+        "type": "ui-page",
+        "name": "Chart",
+        "ui": "1f1770b689ba8d7a",
+        "path": "/chart",
+        "icon": "mdi-chart-bell-curve-cumulative",
+        "layout": "grid",
+        "theme": "482b6d0f7a074d75",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 3,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "parser1",
+        "type": "function",
+        "z": "flow_main",
+        "name": "Parser topic",
+        "func": "// capteurs/<device>/<metric>\nconst parts = msg.topic.split('/');\nmsg.metric = parts[1];\n\n// Le payload peut arriver en JSON ou en valeur brute\nif (typeof msg.payload === 'string') {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        // valeur brute (ex: \"23.5\"), on la laisse telle quelle\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 200,
+        "wires": [
+            [
+                "switch1"
+            ]
+        ]
+    },
+    {
+        "id": "switch1",
+        "type": "switch",
+        "z": "flow_main",
+        "name": "Router métrique",
+        "property": "metric",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "status",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "waterPresent",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "waterTemp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "waterEc",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "waterLevel",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 6,
+        "x": 460,
+        "y": 200,
+        "wires": [
+            [
+                "3da67309ebb66bdd"
+            ],
+            [
+                "268a911d380da5cd"
+            ],
+            [
+                "3b93bc185f395f21"
+            ],
+            [
+                "c8b1ddd37175680e"
+            ],
+            [
+                "bf2b415ebe924aa4"
+            ],
+            [
+                "8eb6413a3c168718"
+            ]
+        ]
+    },
+    {
+        "id": "catchErrors",
+        "type": "catch",
+        "z": "flow_main",
+        "name": "Catch erreurs parsing",
+        "scope": null,
+        "uncaught": false,
+        "x": 280,
+        "y": 420,
+        "wires": [
+            [
+                "debugError"
+            ]
+        ]
+    },
+    {
+        "id": "debugError",
+        "type": "debug",
+        "z": "flow_main",
+        "name": "Erreurs",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "complete": "true",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "eca698aded4781c5",
+        "type": "mqtt in",
+        "z": "flow_main",
+        "name": "hydro1",
+        "topic": "hydro1/#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "daa99494cc9a0975",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "parser1",
+                "d74ccb616a037ebb"
+            ]
+        ]
+    },
+    {
+        "id": "3b93bc185f395f21",
+        "type": "link out",
+        "z": "flow_main",
+        "name": "TempEau1",
+        "mode": "link",
+        "links": [
+            "054a5d6ffedf0d7e"
+        ],
+        "x": 665,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "3da67309ebb66bdd",
+        "type": "link out",
+        "z": "flow_main",
+        "name": "Status",
+        "mode": "link",
+        "links": [
+            "1402b673e006eef8"
+        ],
+        "x": 665,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "4f69611aed5554af",
+        "type": "rbe",
+        "z": "flow_main",
+        "name": "Filtre",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 830,
+        "y": 300,
+        "wires": [
+            [
+                "b2617740396b592f"
+            ]
+        ]
+    },
+    {
+        "id": "b2617740396b592f",
+        "type": "link out",
+        "z": "flow_main",
+        "name": "Telegram",
+        "mode": "link",
+        "links": [
+            "3af6fec8a8bdd13f"
+        ],
+        "x": 935,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "8eb6413a3c168718",
+        "type": "function",
+        "z": "flow_main",
+        "name": "Telegram msg",
+        "func": "node.warn(`Sous-topic non géré: ${msg.topic}`);\nmsg.payload = \"Topic non géré: \" + msg.topic\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 300,
+        "wires": [
+            [
+                "4f69611aed5554af"
+            ]
+        ]
+    },
+    {
+        "id": "268a911d380da5cd",
+        "type": "link out",
+        "z": "flow_main",
+        "name": "WaterPresence1",
+        "mode": "link",
+        "links": [
+            "a9a423661948d8ac"
+        ],
+        "x": 665,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "c8b1ddd37175680e",
+        "type": "link out",
+        "z": "flow_main",
+        "name": "WaterEC1",
+        "mode": "link",
+        "links": [
+            "a3d0737361a115fa"
+        ],
+        "x": 665,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "bf2b415ebe924aa4",
+        "type": "link out",
+        "z": "flow_main",
+        "name": "WaterLevel1",
+        "mode": "link",
+        "links": [
+            "7d73022e222c881d"
+        ],
+        "x": 665,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "6f03b4fd3e271b64",
+        "type": "ui-text",
+        "z": "flow_main",
+        "group": "7d4e55710993f946",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Last message",
+        "label": "Dernier message ",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 540,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d74ccb616a037ebb",
+        "type": "function",
+        "z": "flow_main",
+        "name": "get time last message",
+        "func": "const now = new Date();\n\nconst jour = String(now.getDate()).padStart(2, '0');\nconst mois = String(now.getMonth() + 1).padStart(2, '0'); // +1 car getMonth() va de 0 à 11\nconst annee = now.getFullYear();\nconst heures = String(now.getHours()).padStart(2, '0');\nconst minutes = String(now.getMinutes()).padStart(2, '0');\n\nmsg.payload = `${jour}-${mois}-${annee} ${heures}:${minutes}`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 60,
+        "wires": [
+            [
+                "6f03b4fd3e271b64"
+            ]
+        ]
     },
     {
         "id": "9888adc15dea2c07",
@@ -355,51 +752,124 @@
         "shape": "circle",
         "showBorder": false,
         "showGlow": true,
-        "x": 390,
-        "y": 120,
+        "x": 450,
+        "y": 180,
         "wires": []
     },
     {
-        "id": "c80235445eacb398",
-        "type": "mqtt in",
+        "id": "1402b673e006eef8",
+        "type": "link in",
         "z": "7f9c2167413ca795",
-        "name": "hydro1/status",
-        "topic": "hydro1/status",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "daa99494cc9a0975",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 110,
-        "y": 120,
+        "name": "Status",
+        "links": [
+            "3da67309ebb66bdd"
+        ],
+        "x": 245,
+        "y": 220,
         "wires": [
             [
-                "9888adc15dea2c07"
+                "9888adc15dea2c07",
+                "71f3dc4fdd3f04bb"
             ]
         ]
     },
     {
-        "id": "a8e0030d5550f71f",
-        "type": "mqtt in",
-        "z": "41c985e7d9b48edd",
-        "name": "hydro1/waterPresent",
-        "topic": "hydro1/waterPresent",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "daa99494cc9a0975",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 150,
-        "y": 80,
+        "id": "7457d3c8b766ab75",
+        "type": "rbe",
+        "z": "7f9c2167413ca795",
+        "name": "Filtre",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 630,
+        "y": 240,
         "wires": [
             [
-                "748196d233ab6447",
-                "912ecccdc86d1924"
+                "05c35604342258fe"
             ]
+        ]
+    },
+    {
+        "id": "05c35604342258fe",
+        "type": "link out",
+        "z": "7f9c2167413ca795",
+        "name": "Telegram",
+        "mode": "link",
+        "links": [
+            "3af6fec8a8bdd13f"
+        ],
+        "x": 735,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "71f3dc4fdd3f04bb",
+        "type": "function",
+        "z": "7f9c2167413ca795",
+        "name": "Telegram msg",
+        "func": "msg.payload = \"Gateway status: \" + msg.payload\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "7457d3c8b766ab75"
+            ]
+        ]
+    },
+    {
+        "id": "1496f79373d4908d",
+        "type": "inject",
+        "z": "7f9c2167413ca795",
+        "name": "Test offline",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "offline",
+        "payloadType": "str",
+        "x": 220,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac235b70599faadc",
+        "type": "inject",
+        "z": "7f9c2167413ca795",
+        "name": "Test online",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "online",
+        "payloadType": "str",
+        "x": 220,
+        "y": 100,
+        "wires": [
+            []
         ]
     },
     {
@@ -436,123 +906,7 @@
         "showBorder": false,
         "showGlow": true,
         "x": 570,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "6b83bd1b2b65eb51",
-        "type": "inject",
-        "z": "41c985e7d9b48edd",
-        "g": "311d0db22d11f271",
-        "name": "Interval",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "120",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 160,
-        "y": 340,
-        "wires": [
-            [
-                "a0a2920f16a776d2"
-            ]
-        ]
-    },
-    {
-        "id": "912ecccdc86d1924",
-        "type": "function",
-        "z": "41c985e7d9b48edd",
-        "name": "Update saved data",
-        "func": "let Name = \"PresenceEau1\"\n// recupérer la precedente valeur sauvée\nlet SavedData = global.get(Name) || null\n// sauver la nouvelle valeur\nlet NewData = { time: new Date().getTime(), data: msg.payload }\nglobal.set(Name, NewData)\n\nif (SavedData != null) {\n    let value = SavedData.data\n    if (value != msg.payload) {\n        // on ne communique le msg que si la valeur précédente est différent da la nouvelle valeur\n        return msg\n    }\n} else {\n    return msg\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 470,
-        "y": 180,
-        "wires": [
-            [
-                "ce3d6f9cd1486a52"
-            ]
-        ]
-    },
-    {
-        "id": "a0a2920f16a776d2",
-        "type": "function",
-        "z": "41c985e7d9b48edd",
-        "g": "311d0db22d11f271",
-        "name": "Delta time",
-        "func": "let time = msg.payload\nlet Name = \"PresenceEau1\"\n\nlet AllData = global.get(Name) || null\nif (AllData != null){\n    let delta = (time - AllData.time) / 1000\n    let rounddelta = Math.round(delta)\n    if (rounddelta > 60) { \n        msg.payload = 2;\n        return msg;\n    }\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 320,
-        "y": 340,
-        "wires": [
-            [
-                "748196d233ab6447",
-                "912ecccdc86d1924"
-            ]
-        ]
-    },
-    {
-        "id": "8844d5e90d2d99c8",
-        "type": "comment",
-        "z": "41c985e7d9b48edd",
-        "g": "311d0db22d11f271",
-        "name": "Vérification d'un message régulier ",
-        "info": "",
-        "x": 220,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "ce3d6f9cd1486a52",
-        "type": "function",
-        "z": "41c985e7d9b48edd",
-        "name": "Prépare télégramme mesg",
-        "func": "if(msg.payload == 0){\n   msg.payload = \"Flux d'eau arreté\" \n} else if (msg.payload == 1){\n   msg.payload = \"Flux d'eau détecté\"\n} else if (msg.payload == 2) {\n   msg.payload = \"Delais écoulé entre deux message WaterPresent\"\n} else {\n   msg.payload = \"Statut WaterPresent non connu : \" + msg.payload\n}\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 700,
-        "y": 180,
-        "wires": [
-            [
-                "cd378751a743b76a"
-            ]
-        ]
-    },
-    {
-        "id": "cd378751a743b76a",
-        "type": "link out",
-        "z": "41c985e7d9b48edd",
-        "name": "WaterPresent",
-        "mode": "link",
-        "links": [
-            "3af6fec8a8bdd13f"
-        ],
-        "x": 865,
-        "y": 180,
+        "y": 240,
         "wires": []
     },
     {
@@ -572,12 +926,10 @@
         "topic": "",
         "payload": "0",
         "payloadType": "num",
-        "x": 110,
-        "y": 140,
+        "x": 190,
+        "y": 60,
         "wires": [
-            [
-                "912ecccdc86d1924"
-            ]
+            []
         ]
     },
     {
@@ -597,19 +949,68 @@
         "topic": "",
         "payload": "1",
         "payloadType": "num",
-        "x": 110,
-        "y": 180,
+        "x": 190,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9a423661948d8ac",
+        "type": "link in",
+        "z": "41c985e7d9b48edd",
+        "name": "WaterPresence",
+        "links": [
+            "268a911d380da5cd"
+        ],
+        "x": 185,
+        "y": 240,
         "wires": [
             [
-                "912ecccdc86d1924"
+                "748196d233ab6447",
+                "1d1bd9cc7a4ae4d1",
+                "23fa0368d00b11a6"
             ]
         ]
     },
     {
-        "id": "14229f48dd229852",
+        "id": "7696709c38779bd1",
+        "type": "link out",
+        "z": "41c985e7d9b48edd",
+        "name": "Telegram",
+        "mode": "link",
+        "links": [
+            "3af6fec8a8bdd13f"
+        ],
+        "x": 855,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "1d1bd9cc7a4ae4d1",
+        "type": "function",
+        "z": "41c985e7d9b48edd",
+        "name": "Telegram msg",
+        "func": "let value = msg.payload\nnode.status({});\n\n\nif (isNaN(value)) {\n    node.status({fill:\"red\",shape:\"ring\",text:`Valeur flux invalide pour: ${value}`});\n    msg.payload =`Valeur flux invalide pour: ${value}`\n} else if (value == 0) {\n    msg.payload = \"Flux d'eau arreté\"\n} else if (value == 1) {\n    msg.payload = \"Flux d'eau détecté\"\n} else if (value == 2){\n    msg.payload = \"Délais msg WaterPresence1 dépassé\"\n}else {\n    msg.payload = \"Statut WaterPresent non connu : \" + value\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 320,
+        "wires": [
+            [
+                "c6b5d5db59f34d5b"
+            ]
+        ]
+    },
+    {
+        "id": "671097c10df29834",
         "type": "inject",
         "z": "41c985e7d9b48edd",
-        "name": "Test 2",
+        "name": "Test NaN",
         "props": [
             {
                 "p": "payload"
@@ -620,13 +1021,57 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "2",
-        "payloadType": "num",
-        "x": 110,
-        "y": 220,
+        "payload": "test",
+        "payloadType": "str",
+        "x": 200,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23fa0368d00b11a6",
+        "type": "trigger",
+        "z": "41c985e7d9b48edd",
+        "name": "",
+        "op1": "",
+        "op2": "2",
+        "op1type": "nul",
+        "op2type": "num",
+        "duration": "2",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 350,
+        "y": 320,
         "wires": [
             [
-                "912ecccdc86d1924"
+                "1d1bd9cc7a4ae4d1",
+                "748196d233ab6447"
+            ]
+        ]
+    },
+    {
+        "id": "c6b5d5db59f34d5b",
+        "type": "rbe",
+        "z": "41c985e7d9b48edd",
+        "name": "Filtre",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 750,
+        "y": 320,
+        "wires": [
+            [
+                "7696709c38779bd1"
             ]
         ]
     },
@@ -647,12 +1092,10 @@
         "topic": "",
         "payload": "22.5",
         "payloadType": "num",
-        "x": 140,
-        "y": 80,
+        "x": 200,
+        "y": 100,
         "wires": [
-            [
-                "3187f93c2cf590d9"
-            ]
+            []
         ]
     },
     {
@@ -672,12 +1115,10 @@
         "topic": "",
         "payload": "0",
         "payloadType": "num",
-        "x": 130,
-        "y": 40,
+        "x": 190,
+        "y": 60,
         "wires": [
-            [
-                "3187f93c2cf590d9"
-            ]
+            []
         ]
     },
     {
@@ -697,12 +1138,10 @@
         "topic": "",
         "payload": "31.7",
         "payloadType": "num",
-        "x": 140,
-        "y": 120,
+        "x": 200,
+        "y": 140,
         "wires": [
-            [
-                "3187f93c2cf590d9"
-            ]
+            []
         ]
     },
     {
@@ -753,120 +1192,113 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 650,
-        "y": 180,
+        "x": 810,
+        "y": 200,
         "wires": [
             []
         ]
     },
     {
-        "id": "9b7635db424c0cd2",
-        "type": "mqtt in",
+        "id": "054a5d6ffedf0d7e",
+        "type": "link in",
         "z": "872e3662c51eee80",
-        "name": "hydro1/waterTemp",
-        "topic": "hydro1/waterTemp",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "daa99494cc9a0975",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 150,
-        "y": 180,
-        "wires": [
-            [
-                "3187f93c2cf590d9"
-            ]
-        ]
-    },
-    {
-        "id": "3187f93c2cf590d9",
-        "type": "function",
-        "z": "872e3662c51eee80",
-        "name": "Save data",
-        "func": "let Name = \"TempEau1\"\n// sauver la nouvelle valeur\nlet NewData = { time: new Date().getTime(), data: msg.payload }\nglobal.set(Name, NewData)\n\nreturn msg",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 180,
-        "wires": [
-            [
-                "d589205c9781e8cf"
-            ]
-        ]
-    },
-    {
-        "id": "c90e631e753a5a2c",
-        "type": "inject",
-        "z": "872e3662c51eee80",
-        "g": "4cf6b77091ebe3c6",
-        "name": "Interval",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
+        "name": "TempEau1",
+        "links": [
+            "3b93bc185f395f21"
         ],
-        "repeat": "120",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 160,
-        "y": 320,
+        "x": 205,
+        "y": 200,
         "wires": [
             [
-                "10f30a1621cb426e"
+                "d589205c9781e8cf",
+                "16c90383b5adba13"
             ]
         ]
     },
     {
-        "id": "10f30a1621cb426e",
+        "id": "16c90383b5adba13",
+        "type": "trigger",
+        "z": "872e3662c51eee80",
+        "name": "",
+        "op1": "",
+        "op2": "-",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "2",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 370,
+        "y": 300,
+        "wires": [
+            [
+                "576222297c606cd4",
+                "217fef24e46b6a01"
+            ]
+        ]
+    },
+    {
+        "id": "0462b3f18e65052c",
+        "type": "link out",
+        "z": "872e3662c51eee80",
+        "name": "Telegram",
+        "mode": "link",
+        "links": [
+            "3af6fec8a8bdd13f"
+        ],
+        "x": 755,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "576222297c606cd4",
         "type": "function",
         "z": "872e3662c51eee80",
-        "g": "4cf6b77091ebe3c6",
-        "name": "Delta time",
-        "func": "let time = msg.payload\nlet Name = \"TempEau1\"\n\nlet AllData = global.get(Name) || null\nif (AllData != null){\n    let delta = (time - AllData.time) / 1000\n    let rounddelta = Math.round(delta)\n    if (rounddelta > 60) { \n        msg.payload = 0;\n        return msg;\n    }\n}",
+        "name": "Telegram msg",
+        "func": "msg.payload = \"Délais msg WaterTemp1 dépassé\"\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
+        "x": 580,
         "y": 320,
+        "wires": [
+            [
+                "0462b3f18e65052c"
+            ]
+        ]
+    },
+    {
+        "id": "217fef24e46b6a01",
+        "type": "function",
+        "z": "872e3662c51eee80",
+        "name": "Reset dashboard",
+        "func": "msg.payload = \"\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 280,
         "wires": [
             [
                 "d589205c9781e8cf"
             ]
         ]
-    },
-    {
-        "id": "db3b0711827393b3",
-        "type": "comment",
-        "z": "872e3662c51eee80",
-        "g": "4cf6b77091ebe3c6",
-        "name": "Vérification d'un message régulier ",
-        "info": "",
-        "x": 220,
-        "y": 280,
-        "wires": []
     },
     {
         "id": "029354998a48d2d3",
         "type": "inject",
         "z": "5d7833fcdcb26ca1",
-        "name": "Test 22.5",
+        "name": "Test 1000",
         "props": [
             {
                 "p": "payload"
@@ -877,14 +1309,12 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "22.5",
+        "payload": "1000",
         "payloadType": "num",
         "x": 120,
         "y": 80,
         "wires": [
-            [
-                "a99ec33b018cc093"
-            ]
+            []
         ]
     },
     {
@@ -907,9 +1337,7 @@
         "x": 110,
         "y": 40,
         "wires": [
-            [
-                "a99ec33b018cc093"
-            ]
+            []
         ]
     },
     {
@@ -932,9 +1360,7 @@
         "x": 120,
         "y": 120,
         "wires": [
-            [
-                "a99ec33b018cc093"
-            ]
+            []
         ]
     },
     {
@@ -959,159 +1385,131 @@
         "suffix": "",
         "segments": [
             {
-                "from": "5",
+                "from": "500",
                 "color": "#0061fe",
                 "text": "",
                 "textType": "label"
             },
             {
-                "from": "10",
+                "from": "1000",
                 "color": "#76bb40",
                 "text": "",
                 "textType": "label"
             },
             {
-                "from": "35",
+                "from": "3000",
                 "color": "#e22400",
                 "text": "",
                 "textType": "label"
             }
         ],
-        "min": "5",
-        "max": "40",
+        "min": "500",
+        "max": "3500",
         "sizeThickness": 16,
         "sizeGap": 4,
         "sizeKeyThickness": 8,
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 610,
-        "y": 180,
+        "x": 730,
+        "y": 220,
         "wires": [
             []
         ]
     },
     {
-        "id": "03519cd0280468b8",
-        "type": "mqtt in",
+        "id": "a3d0737361a115fa",
+        "type": "link in",
         "z": "5d7833fcdcb26ca1",
-        "name": "hydro1/waterEc",
-        "topic": "hydro1/waterEc",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "daa99494cc9a0975",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 120,
-        "y": 180,
-        "wires": [
-            [
-                "a99ec33b018cc093"
-            ]
-        ]
-    },
-    {
-        "id": "a99ec33b018cc093",
-        "type": "function",
-        "z": "5d7833fcdcb26ca1",
-        "name": "Save data",
-        "func": "let Name = \"EcEau1\"\n// sauver la nouvelle valeur\nlet NewData = { time: new Date().getTime(), data: msg.payload }\nglobal.set(Name, NewData)\n\nreturn msg",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 360,
-        "y": 180,
-        "wires": [
-            [
-                "8c11b3334ddc89c8"
-            ]
-        ]
-    },
-    {
-        "id": "2f65e4f032d0b946",
-        "type": "inject",
-        "z": "5d7833fcdcb26ca1",
-        "g": "717321e96f861e21",
-        "name": "Interval",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
+        "name": "WaterEC1",
+        "links": [
+            "c8b1ddd37175680e"
         ],
-        "repeat": "120",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 140,
-        "y": 320,
+        "x": 165,
+        "y": 220,
         "wires": [
             [
-                "371715a016120383"
+                "8c11b3334ddc89c8",
+                "652140c87b5f51c0"
             ]
         ]
     },
     {
-        "id": "371715a016120383",
-        "type": "function",
+        "id": "652140c87b5f51c0",
+        "type": "trigger",
         "z": "5d7833fcdcb26ca1",
-        "g": "717321e96f861e21",
-        "name": "Delta time",
-        "func": "let time = msg.payload\nlet Name = \"EcEau1\"\n\nlet AllData = global.get(Name) || null\nif (AllData != null){\n    let delta = (time - AllData.time) / 1000\n    let rounddelta = Math.round(delta)\n    if (rounddelta > 60) { \n        msg.payload = 0;\n        return msg;\n    }\n}",
+        "name": "",
+        "op1": "",
+        "op2": "-",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "2",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
         "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 300,
-        "y": 320,
+        "x": 290,
+        "y": 280,
         "wires": [
             [
-                "8c11b3334ddc89c8"
+                "ae21e49418946445",
+                "34e07f00f47db499"
             ]
         ]
     },
     {
-        "id": "b9d819c138e53317",
-        "type": "comment",
+        "id": "7f948528e93be371",
+        "type": "link out",
         "z": "5d7833fcdcb26ca1",
-        "g": "717321e96f861e21",
-        "name": "Vérification d'un message régulier ",
-        "info": "",
-        "x": 200,
-        "y": 280,
+        "name": "Telegram",
+        "mode": "link",
+        "links": [
+            "3af6fec8a8bdd13f"
+        ],
+        "x": 695,
+        "y": 320,
         "wires": []
     },
     {
-        "id": "9be01126b50cd37d",
-        "type": "mqtt in",
-        "z": "da80f803693a2333",
-        "name": "hydro1/waterLevel",
-        "topic": "hydro1/waterLevel",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "daa99494cc9a0975",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 150,
-        "y": 180,
+        "id": "ae21e49418946445",
+        "type": "function",
+        "z": "5d7833fcdcb26ca1",
+        "name": "Telegram msg",
+        "func": "msg.payload = \"Délais msg WaterEC1 dépassé\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 320,
         "wires": [
             [
-                "2ccc181c2a4166ab"
+                "7f948528e93be371"
+            ]
+        ]
+    },
+    {
+        "id": "34e07f00f47db499",
+        "type": "function",
+        "z": "5d7833fcdcb26ca1",
+        "name": "Reset dashboard",
+        "func": "msg.payload = \"\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 260,
+        "wires": [
+            [
+                "8c11b3334ddc89c8"
             ]
         ]
     },
@@ -1138,7 +1536,7 @@
         "segments": [
             {
                 "from": "0",
-                "color": "#a8f5ff",
+                "color": "#00fdff",
                 "text": "",
                 "textType": "label"
             },
@@ -1169,8 +1567,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 470,
-        "y": 140,
+        "x": 770,
+        "y": 160,
         "wires": [
             []
         ]
@@ -1195,9 +1593,7 @@
         "x": 130,
         "y": 60,
         "wires": [
-            [
-                "2ccc181c2a4166ab"
-            ]
+            []
         ]
     },
     {
@@ -1219,6 +1615,145 @@
         "payloadType": "num",
         "x": 130,
         "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7d73022e222c881d",
+        "type": "link in",
+        "z": "da80f803693a2333",
+        "name": "WaterLevel1",
+        "links": [
+            "bf2b415ebe924aa4"
+        ],
+        "x": 175,
+        "y": 160,
+        "wires": [
+            [
+                "7dda102f9c937063",
+                "f098192e9362e9d1",
+                "0d9db2079ac251a4"
+            ]
+        ]
+    },
+    {
+        "id": "7dda102f9c937063",
+        "type": "trigger",
+        "z": "da80f803693a2333",
+        "name": "",
+        "op1": "",
+        "op2": "-",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "2",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 310,
+        "y": 260,
+        "wires": [
+            [
+                "95b948e192133d02",
+                "e12134a5269f3919"
+            ]
+        ]
+    },
+    {
+        "id": "f3308a7bdb825f78",
+        "type": "link out",
+        "z": "da80f803693a2333",
+        "name": "Telegram",
+        "mode": "link",
+        "links": [
+            "3af6fec8a8bdd13f"
+        ],
+        "x": 745,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "95b948e192133d02",
+        "type": "function",
+        "z": "da80f803693a2333",
+        "name": "Telegram msg",
+        "func": "msg.payload = \"Délais msg WaterLevel1 dépassé\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 280,
+        "wires": [
+            [
+                "f3308a7bdb825f78"
+            ]
+        ]
+    },
+    {
+        "id": "e12134a5269f3919",
+        "type": "function",
+        "z": "da80f803693a2333",
+        "name": "Reset dashboard",
+        "func": "msg.payload = \"-\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 240,
+        "wires": [
+            [
+                "2ccc181c2a4166ab"
+            ]
+        ]
+    },
+    {
+        "id": "f098192e9362e9d1",
+        "type": "ui-text",
+        "z": "da80f803693a2333",
+        "group": "b34498e7f3d949a0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Config",
+        "label": "Valeur actuelle ",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 370,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "0d9db2079ac251a4",
+        "type": "function",
+        "z": "da80f803693a2333",
+        "name": "transforme value to %",
+        "func": "// Récupération des paramètres globaux\nlet config = global.get(\"Config\")\nvar niveauHaut = config.ReservoirNiveauHaut; // valeur capteur à 100%\nvar niveauBas = config.ReservoirNiveauBas;   // valeur capteur à 0%\n\n// Valeur mesurée par le capteur (distance en cm par exemple)\nvar mesure = msg.payload;\n\n// Calcul du pourcentage\n// Quand mesure = niveauBas  -> 0%\n// Quand mesure = niveauHaut -> 100%\nvar pourcentage = (niveauBas - mesure) / (niveauBas - niveauHaut) * 100;\n\n// On borne le résultat entre 0 et 100 pour éviter les valeurs aberrantes\n// (ex: cuve trop pleine, capteur bruité, etc.)\npourcentage = Math.max(0, Math.min(100, pourcentage));\n\n// Arrondi à 1 décimale (optionnel)\npourcentage = Math.round(pourcentage * 10) / 10;\n\nmsg.payload = pourcentage;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 160,
         "wires": [
             [
                 "2ccc181c2a4166ab"
@@ -1242,12 +1777,10 @@
         "topic": "",
         "payload": "Message de test HydroponX ",
         "payloadType": "str",
-        "x": 160,
-        "y": 240,
+        "x": 240,
+        "y": 180,
         "wires": [
-            [
-                "bc0942f7499371cf"
-            ]
+            []
         ]
     },
     {
@@ -1262,8 +1795,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 280,
+        "x": 500,
+        "y": 300,
         "wires": [
             [
                 "541e6524911703f0"
@@ -1278,8 +1811,8 @@
         "bot": "c0ac1c1ca1df5fc3",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 520,
-        "y": 280,
+        "x": 680,
+        "y": 300,
         "wires": [
             []
         ]
@@ -1290,14 +1823,441 @@
         "z": "ed8841521eff836e",
         "name": "Telegram",
         "links": [
-            "cd378751a743b76a"
+            "05c35604342258fe",
+            "b2617740396b592f",
+            "7696709c38779bd1",
+            "0462b3f18e65052c",
+            "7f948528e93be371",
+            "f3308a7bdb825f78"
         ],
-        "x": 145,
+        "x": 175,
+        "y": 300,
+        "wires": [
+            [
+                "7626c94f59cccadc"
+            ]
+        ]
+    },
+    {
+        "id": "7626c94f59cccadc",
+        "type": "delay",
+        "z": "ed8841521eff836e",
+        "name": "Queue",
+        "pauseType": "rate",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "2",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 330,
         "y": 300,
         "wires": [
             [
                 "bc0942f7499371cf"
             ]
         ]
+    },
+    {
+        "id": "e521297e4af549f7",
+        "type": "inject",
+        "z": "421713a84fde8e78",
+        "g": "dc7bf7b9f400efc3",
+        "name": "Start lire fichier",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "412f74f7a466d098"
+            ]
+        ]
+    },
+    {
+        "id": "412f74f7a466d098",
+        "type": "file in",
+        "z": "421713a84fde8e78",
+        "g": "dc7bf7b9f400efc3",
+        "name": "MySteetings",
+        "filename": "/data/MySettings.txt",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 350,
+        "y": 220,
+        "wires": [
+            [
+                "f38e459f32aefaed"
+            ]
+        ]
+    },
+    {
+        "id": "f38e459f32aefaed",
+        "type": "function",
+        "z": "421713a84fde8e78",
+        "g": "dc7bf7b9f400efc3",
+        "name": "Set config to global var",
+        "func": "const config = JSON.parse(msg.payload);\nglobal.set(\"Config\", config);\nmsg.payload = config;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec20a1324162e5bc",
+        "type": "catch",
+        "z": "421713a84fde8e78",
+        "g": "dc7bf7b9f400efc3",
+        "name": "Catch erreurs file",
+        "scope": "group",
+        "uncaught": false,
+        "x": 340,
+        "y": 280,
+        "wires": [
+            [
+                "7de78343d7c1d957"
+            ]
+        ]
+    },
+    {
+        "id": "04551e6641ce06ab",
+        "type": "comment",
+        "z": "421713a84fde8e78",
+        "g": "dc7bf7b9f400efc3",
+        "name": "Initialisation",
+        "info": "",
+        "x": 150,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "90c196fc035d0714",
+        "type": "link in",
+        "z": "421713a84fde8e78",
+        "g": "4662f7c8ca9f7c4f",
+        "name": "Save Config",
+        "links": [
+            "9dd59cc7530e54b4",
+            "7de78343d7c1d957"
+        ],
+        "x": 75,
+        "y": 460,
+        "wires": [
+            [
+                "94aa2713fa9d2442"
+            ]
+        ]
+    },
+    {
+        "id": "94aa2713fa9d2442",
+        "type": "function",
+        "z": "421713a84fde8e78",
+        "g": "4662f7c8ca9f7c4f",
+        "name": "create config to global var",
+        "func": "// Récupère la config actuelle\nlet config = global.get(\"Config\");\n\n\nif (config == undefined){\n    config = {\n        ReservoirNiveauHaut: 20,\n        ReservoirNiveauBas: 60\n    };\n    global.set(\"Config\", config);\n}\n\nmsg.payload = JSON.stringify(config, null, 2); // null, 2 = joli formatage\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 460,
+        "wires": [
+            [
+                "13fa2c1ea1fc486e"
+            ]
+        ]
+    },
+    {
+        "id": "13fa2c1ea1fc486e",
+        "type": "file",
+        "z": "421713a84fde8e78",
+        "g": "4662f7c8ca9f7c4f",
+        "name": "MySetting",
+        "filename": "/data/MySettings.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 510,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f9ea3a7ff6414bc6",
+        "type": "comment",
+        "z": "421713a84fde8e78",
+        "g": "4662f7c8ca9f7c4f",
+        "name": "Save Config",
+        "info": "",
+        "x": 130,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "364c9704b2c16b04",
+        "type": "ui-number-input",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "group": "b34498e7f3d949a0",
+        "name": "ReservoirHaut",
+        "label": "Reservoir Haut",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "50",
+        "step": 1,
+        "tooltip": "",
+        "delay": 300,
+        "passthru": true,
+        "sendOnDelay": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": true,
+        "icon": "archive-arrow-up-outline",
+        "iconPosition": "left",
+        "iconInnerPosition": "outside",
+        "spinner": "default",
+        "x": 600,
+        "y": 600,
+        "wires": [
+            [
+                "931fff214ad35a24"
+            ]
+        ]
+    },
+    {
+        "id": "41a36379afc41a24",
+        "type": "ui-number-input",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "group": "b34498e7f3d949a0",
+        "name": "ReservoirBas",
+        "label": "Reservoir Bas",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "150",
+        "step": 1,
+        "tooltip": "",
+        "delay": 300,
+        "passthru": true,
+        "sendOnDelay": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": true,
+        "icon": "archive-arrow-down-outline",
+        "iconPosition": "left",
+        "iconInnerPosition": "outside",
+        "spinner": "default",
+        "x": 590,
+        "y": 640,
+        "wires": [
+            [
+                "c05787fabaa688d7"
+            ]
+        ]
+    },
+    {
+        "id": "df6fca19a0614a8b",
+        "type": "inject",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "name": "Start lire fichier",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 620,
+        "wires": [
+            [
+                "d3862c39c1e186c2",
+                "a2eedf97b13b909d"
+            ]
+        ]
+    },
+    {
+        "id": "d3862c39c1e186c2",
+        "type": "change",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "name": "Set Niveau Haut",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Config.ReservoirNiveauHaut",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 600,
+        "wires": [
+            [
+                "364c9704b2c16b04"
+            ]
+        ]
+    },
+    {
+        "id": "a2eedf97b13b909d",
+        "type": "change",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "name": "Set Niveau Bas",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Config.ReservoirNiveauBas",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 640,
+        "wires": [
+            [
+                "41a36379afc41a24"
+            ]
+        ]
+    },
+    {
+        "id": "931fff214ad35a24",
+        "type": "function",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "name": "Set config data",
+        "func": "let config = global.get(\"Config\")\nif (config == undefined){\n    return null\n}\nconfig.ReservoirNiveauHaut = msg.payload\nglobal.set(\"Config\", config);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 600,
+        "wires": [
+            [
+                "9dd59cc7530e54b4"
+            ]
+        ]
+    },
+    {
+        "id": "9dd59cc7530e54b4",
+        "type": "link out",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "name": "Save Config",
+        "mode": "link",
+        "links": [
+            "90c196fc035d0714"
+        ],
+        "x": 925,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "c05787fabaa688d7",
+        "type": "function",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "name": "Set config data",
+        "func": "let config = global.get(\"Config\")\nif (config == undefined){\n    return null\n}\nconfig.ReservoirNiveauBas = msg.payload\nglobal.set(\"Config\", config);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 640,
+        "wires": [
+            [
+                "9dd59cc7530e54b4"
+            ]
+        ]
+    },
+    {
+        "id": "7de78343d7c1d957",
+        "type": "link out",
+        "z": "421713a84fde8e78",
+        "g": "dc7bf7b9f400efc3",
+        "name": "Save config",
+        "mode": "link",
+        "links": [
+            "90c196fc035d0714"
+        ],
+        "x": 525,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "52060783657a00b1",
+        "type": "comment",
+        "z": "421713a84fde8e78",
+        "g": "e3b0e4e973a8e083",
+        "name": "UI",
+        "info": "",
+        "x": 110,
+        "y": 560,
+        "wires": []
     }
 ]
