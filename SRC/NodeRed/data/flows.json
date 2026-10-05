@@ -63,6 +63,14 @@
         "env": []
     },
     {
+        "id": "79fce023153eaef1",
+        "type": "tab",
+        "label": "Relay",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "dc7bf7b9f400efc3",
         "type": "group",
         "z": "421713a84fde8e78",
@@ -241,9 +249,9 @@
     {
         "id": "a0d8109001cbeb4a",
         "type": "ui-page",
-        "name": "HydroponiX",
+        "name": "HydroponX",
         "ui": "1f1770b689ba8d7a",
-        "path": "/HydroponiX",
+        "path": "/HydroponX",
         "icon": "home",
         "layout": "grid",
         "theme": "482b6d0f7a074d75",
@@ -271,8 +279,8 @@
         ],
         "order": 1,
         "className": "",
-        "visible": true,
-        "disabled": false
+        "visible": "true",
+        "disabled": "false"
     },
     {
         "id": "7d4e55710993f946",
@@ -372,10 +380,10 @@
                 "cols": "12"
             }
         ],
-        "order": 2,
+        "order": 3,
         "className": "",
-        "visible": true,
-        "disabled": false
+        "visible": "true",
+        "disabled": "false"
     },
     {
         "id": "b34498e7f3d949a0",
@@ -398,7 +406,7 @@
         "ui": "1f1770b689ba8d7a",
         "path": "/chart",
         "icon": "mdi-chart-bell-curve-cumulative",
-        "layout": "grid",
+        "layout": "notebook",
         "theme": "482b6d0f7a074d75",
         "breakpoints": [
             {
@@ -422,17 +430,67 @@
                 "cols": "12"
             }
         ],
-        "order": 3,
+        "order": 2,
         "className": "",
         "visible": "true",
         "disabled": "false"
+    },
+    {
+        "id": "04d85af069d4d481",
+        "type": "ui-group",
+        "name": "ChartGroup",
+        "page": "689a0e77105419d0",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "fa9dc11344ccd8ea",
+        "type": "ui-group",
+        "name": "Relay",
+        "page": "a0d8109001cbeb4a",
+        "width": "4",
+        "height": 1,
+        "order": 5,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "62f5bba2470af98f",
+        "type": "ui-spacer",
+        "group": "fa9dc11344ccd8ea",
+        "name": "spacer",
+        "tooltip": "",
+        "order": 6,
+        "width": "4",
+        "height": 1,
+        "className": ""
+    },
+    {
+        "id": "1acf734fd2cd82dc",
+        "type": "ui-spacer",
+        "group": "fa9dc11344ccd8ea",
+        "name": "spacer",
+        "tooltip": "",
+        "order": 1,
+        "width": "4",
+        "height": 1,
+        "className": ""
     },
     {
         "id": "parser1",
         "type": "function",
         "z": "flow_main",
         "name": "Parser topic",
-        "func": "// capteurs/<device>/<metric>\nconst parts = msg.topic.split('/');\nmsg.metric = parts[1];\n\n// Le payload peut arriver en JSON ou en valeur brute\nif (typeof msg.payload === 'string') {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        // valeur brute (ex: \"23.5\"), on la laisse telle quelle\n    }\n}\n\nreturn msg;",
+        "func": "// <metric>\nconst parts = msg.topic.split('/');\nmsg.metric = parts[1];\n\n// Le payload peut arriver en JSON ou en valeur brute\nif (typeof msg.payload === 'string') {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        // valeur brute (ex: \"23.5\"), on la laisse telle quelle\n    }\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -1038,7 +1096,7 @@
         "op2": "2",
         "op1type": "nul",
         "op2type": "num",
-        "duration": "2",
+        "duration": "3",
         "extend": true,
         "overrideDelay": false,
         "units": "min",
@@ -1192,8 +1250,8 @@
         "styleRounded": true,
         "styleGlow": false,
         "className": "",
-        "x": 810,
-        "y": 200,
+        "x": 890,
+        "y": 220,
         "wires": [
             []
         ]
@@ -1206,12 +1264,13 @@
         "links": [
             "3b93bc185f395f21"
         ],
-        "x": 205,
-        "y": 200,
+        "x": 285,
+        "y": 220,
         "wires": [
             [
                 "d589205c9781e8cf",
-                "16c90383b5adba13"
+                "16c90383b5adba13",
+                "c5aae11f6eaa3541"
             ]
         ]
     },
@@ -1224,7 +1283,7 @@
         "op2": "-",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "2",
+        "duration": "3",
         "extend": true,
         "overrideDelay": false,
         "units": "min",
@@ -1232,8 +1291,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 370,
-        "y": 300,
+        "x": 450,
+        "y": 320,
         "wires": [
             [
                 "576222297c606cd4",
@@ -1250,8 +1309,8 @@
         "links": [
             "3af6fec8a8bdd13f"
         ],
-        "x": 755,
-        "y": 320,
+        "x": 835,
+        "y": 340,
         "wires": []
     },
     {
@@ -1266,8 +1325,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 580,
-        "y": 320,
+        "x": 660,
+        "y": 340,
         "wires": [
             [
                 "0462b3f18e65052c"
@@ -1286,11 +1345,93 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 590,
-        "y": 280,
+        "x": 670,
+        "y": 300,
         "wires": [
             [
                 "d589205c9781e8cf"
+            ]
+        ]
+    },
+    {
+        "id": "49bab68f58a3b8dc",
+        "type": "ui-chart",
+        "z": "872e3662c51eee80",
+        "group": "04d85af069d4d481",
+        "name": "Temperature",
+        "label": "Temperature",
+        "order": 3,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "{HH}:{mm}",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "30",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "7",
+        "removeOlderUnit": "86400",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": "5",
+        "className": "",
+        "interpolation": "smooth",
+        "x": 890,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c5aae11f6eaa3541",
+        "type": "function",
+        "z": "872e3662c51eee80",
+        "name": "Moyenne sur 10 min",
+        "func": "let buf = global.get('BufTemperature') || [];\nbuf.push(Number(msg.payload));\n\nif (buf.length < 10) {\n    global.set('BufTemperature', buf);\n    return null;              // rien envoyé au chart\n}\n\nglobal.set('BufTemperature', []);\nconst moyenne = buf.reduce((a, b) => a + b, 0) / buf.length;\nmsg.payload = Math.round(moyenne * 100) / 100;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 160,
+        "wires": [
+            [
+                "49bab68f58a3b8dc"
             ]
         ]
     },
@@ -1430,7 +1571,8 @@
         "wires": [
             [
                 "8c11b3334ddc89c8",
-                "652140c87b5f51c0"
+                "652140c87b5f51c0",
+                "90654b789750609f"
             ]
         ]
     },
@@ -1443,7 +1585,7 @@
         "op2": "-",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "2",
+        "duration": "3",
         "extend": true,
         "overrideDelay": false,
         "units": "min",
@@ -1514,6 +1656,88 @@
         ]
     },
     {
+        "id": "bf1ee085da487435",
+        "type": "ui-chart",
+        "z": "5d7833fcdcb26ca1",
+        "group": "04d85af069d4d481",
+        "name": "EC",
+        "label": "EC",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "{HH}:{mm}",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "500",
+        "ymax": "3500",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "7",
+        "removeOlderUnit": "86400",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": "5",
+        "className": "",
+        "interpolation": "smooth",
+        "x": 730,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "90654b789750609f",
+        "type": "function",
+        "z": "5d7833fcdcb26ca1",
+        "name": "Moyenne sur 10 min",
+        "func": "let buf = global.get('BufEC') || [];\nbuf.push(Number(msg.payload));\n\nif (buf.length < 10) {\n    global.set('BufEC', buf);\n    return null;              // rien envoyé au chart\n}\n\nglobal.set('BufEC', []);\nconst moyenne = buf.reduce((a, b) => a + b, 0) / buf.length;\nmsg.payload = Math.round(moyenne * 100) / 100;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 160,
+        "wires": [
+            [
+                "bf1ee085da487435"
+            ]
+        ]
+    },
+    {
         "id": "2ccc181c2a4166ab",
         "type": "ui-gauge",
         "z": "da80f803693a2333",
@@ -1568,7 +1792,7 @@
         "styleGlow": false,
         "className": "",
         "x": 770,
-        "y": 160,
+        "y": 260,
         "wires": [
             []
         ]
@@ -1628,7 +1852,7 @@
             "bf2b415ebe924aa4"
         ],
         "x": 175,
-        "y": 160,
+        "y": 260,
         "wires": [
             [
                 "7dda102f9c937063",
@@ -1646,7 +1870,7 @@
         "op2": "-",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "2",
+        "duration": "3",
         "extend": true,
         "overrideDelay": false,
         "units": "min",
@@ -1655,7 +1879,7 @@
         "topic": "topic",
         "outputs": 1,
         "x": 310,
-        "y": 260,
+        "y": 360,
         "wires": [
             [
                 "95b948e192133d02",
@@ -1673,7 +1897,7 @@
             "3af6fec8a8bdd13f"
         ],
         "x": 745,
-        "y": 280,
+        "y": 380,
         "wires": []
     },
     {
@@ -1689,7 +1913,7 @@
         "finalize": "",
         "libs": [],
         "x": 520,
-        "y": 280,
+        "y": 380,
         "wires": [
             [
                 "f3308a7bdb825f78"
@@ -1709,7 +1933,7 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 240,
+        "y": 340,
         "wires": [
             [
                 "2ccc181c2a4166ab"
@@ -1736,8 +1960,8 @@
         "className": "",
         "value": "payload",
         "valueType": "msg",
-        "x": 370,
-        "y": 100,
+        "x": 410,
+        "y": 220,
         "wires": []
     },
     {
@@ -1753,10 +1977,93 @@
         "finalize": "",
         "libs": [],
         "x": 540,
-        "y": 160,
+        "y": 260,
         "wires": [
             [
-                "2ccc181c2a4166ab"
+                "2ccc181c2a4166ab",
+                "4e8d142219980ddc"
+            ]
+        ]
+    },
+    {
+        "id": "54d533ddd70dbce2",
+        "type": "ui-chart",
+        "z": "da80f803693a2333",
+        "group": "04d85af069d4d481",
+        "name": "Level",
+        "label": "Level",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "{HH}:{mm}",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "7",
+        "removeOlderUnit": "86400",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": "5",
+        "className": "",
+        "interpolation": "smooth",
+        "x": 770,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4e8d142219980ddc",
+        "type": "function",
+        "z": "da80f803693a2333",
+        "name": "Moyenne sur 10 min",
+        "func": "let buf = global.get('BufLevel') || [];\nbuf.push(Number(msg.payload));\n\nif (buf.length < 10) {\n    global.set('BufLevel', buf);\n    return null;              // rien envoyé au chart\n}\n\nglobal.set('BufLevel', []);\nconst moyenne = buf.reduce((a, b) => a + b, 0) / buf.length;\nmsg.payload = Math.round(moyenne * 100) / 100;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 140,
+        "wires": [
+            [
+                "54d533ddd70dbce2"
             ]
         ]
     },
@@ -2259,5 +2566,189 @@
         "x": 110,
         "y": 560,
         "wires": []
+    },
+    {
+        "id": "93cd71725f487380",
+        "type": "ui-button",
+        "z": "79fce023153eaef1",
+        "group": "fa9dc11344ccd8ea",
+        "name": "Relay 1 On",
+        "label": "Relay1 On",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 310,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd5f0d7a07a758bd",
+        "type": "mqtt out",
+        "z": "79fce023153eaef1",
+        "name": "Relay1",
+        "topic": "hydro1/cmd/out1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "daa99494cc9a0975",
+        "x": 570,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "46c82d3048bd850b",
+        "type": "mqtt out",
+        "z": "79fce023153eaef1",
+        "name": "Relay2",
+        "topic": "hydro1/cmd/out2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "daa99494cc9a0975",
+        "x": 570,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "de1cc12cc3daf76f",
+        "type": "ui-button",
+        "z": "79fce023153eaef1",
+        "group": "fa9dc11344ccd8ea",
+        "name": "Relay 1 Off",
+        "label": "Relay1 Off",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "0",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 310,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0da75fc7895d4fbd",
+        "type": "ui-button",
+        "z": "79fce023153eaef1",
+        "group": "fa9dc11344ccd8ea",
+        "name": "Relay 2 On",
+        "label": "Relay2 On",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "#00BFFF",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 310,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "77472c0b3767207a",
+        "type": "ui-button",
+        "z": "79fce023153eaef1",
+        "group": "fa9dc11344ccd8ea",
+        "name": "Relay 2 Off",
+        "label": "Relay2 Off",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "0",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "#00BFFF",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 310,
+        "y": 280,
+        "wires": [
+            []
+        ]
     }
 ]
