@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "PlatformIO-Gateway"
+		},
+		{
+			"path": "PlatformIO-Capteur"
+		}
+	],
+	"settings": {}
+}
