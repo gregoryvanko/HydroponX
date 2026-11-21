@@ -6,7 +6,27 @@ Ce module fait le pont entre le **bus CAN** et un **broker MQTT** (via Wi-Fi) :
 - il écoute les mesures envoyées par le [Module Capteur](../PlatformIO-Capteur/README.md) et les republie sur des topics MQTT ;
 - il souscrit à des topics de commande MQTT pour piloter deux relais (pompes).
 
-> Code migré depuis le projet Arduino IDE [`SRC/Module-Gateway`](../SRC/Module-Gateway) : le sketch `.ino` est devenu [`src/main.cpp`](src/main.cpp), les en-têtes sont dans [`include/`](include) et les implémentations dans [`src/`](src).
+> Code migré depuis le projet Arduino IDE [`SRC/Module-Gateway`](../SRC/Module-Gateway).
+
+---
+
+## Structure du projet
+
+```
+PlatformIO-Gateway/
+├── platformio.ini              Carte, framework, vitesse série et dépendances externes
+├── src/
+│   ├── main.cpp                Programme principal : setup() / loop(), routage CAN ↔ MQTT
+│   ├── Config.h                Broches, Wi-Fi, broker et topics MQTT, débit et IDs CAN
+│   └── WifiHelper.h            Connexion et reconnexion Wi-Fi
+└── lib/                        Bibliothèques locales (une classe par dossier)
+    ├── CANManager/             CANManager.h / .cpp        → bus CAN (TWAI)
+    ├── MqttGateway/            MqttGateway.h / .cpp       → client MQTT (PubSubClient)
+    └── RelayController/        RelayController.h / .cpp   → sorties relais
+```
+
+Chaque dossier de `lib/` est compilé par PlatformIO comme une bibliothèque indépendante : son en-tête est trouvé automatiquement quand `main.cpp` fait `#include "<Nom>.h"`, sans réglage dans `platformio.ini`.
+La bibliothèque externe PubSubClient est téléchargée via `lib_deps`.
 
 ---
 
@@ -79,9 +99,11 @@ Tout autre topic sous `hydro1/cmd/` est ignoré.
 
 ---
 
-## Détail des classes et fichiers
+## Détail des bibliothèques et fichiers
 
 ### `CANManager` — bus CAN (TWAI)
+*Dossier : [`lib/CANManager`](lib/CANManager)*
+
 Classe identique à celle du Module Capteur : encapsule le contrôleur CAN intégré de l'ESP32 (`driver/twai.h`) relié à un transceiver SN65HVD230.
 - `begin(rx, tx, baudrate)` : 250 k, 500 k ou 1 Mbit/s, mode normal, aucun filtre (toutes les trames sont acceptées).
 - `receive(msg)` : lecture non bloquante d'une trame dans la file du driver.
@@ -89,6 +111,8 @@ Classe identique à celle du Module Capteur : encapsule le contrôleur CAN inté
 - `setFilterRange()` / `setFilterMask()` permettent un filtrage matériel (à appeler avant `begin()`), non utilisé pour l'instant.
 
 ### `MqttGateway` — client MQTT
+*Dossier : [`lib/MqttGateway`](lib/MqttGateway)*
+
 Surcouche de `PubSubClient` :
 - buffer de paquet de 512 octets ;
 - gestion optionnelle de l'authentification et du Last Will ;
@@ -100,17 +124,21 @@ Surcouche de `PubSubClient` :
 > `PubSubClient` ne publie qu'en QoS 0 : le paramètre `qos` de `publish()` est ignoré.
 
 ### `RelayController` — sorties relais
+*Dossier : [`lib/RelayController`](lib/RelayController)*
+
 - Relais **actifs à l'état bas** (`LOW` = relais enclenché).
 - `begin()` configure la broche en sortie et coupe le relais.
 - `turnOn()`, `turnOff()`, `toggle()`, `pulse(ms)` (bloquant), `isOn()`, `getStateString()`.
 
 ### `WifiHelper.h` — connexion Wi-Fi
+*Fichier : [`src/WifiHelper.h`](src/WifiHelper.h)* (en-tête seul, inclus uniquement par `main.cpp`)
+
 - `connectToWiFi(ssid, password)` : connexion en mode station, attend la connexion (bloquant) puis affiche l'IP et le canal.
 - `handleWiFiReconnect()` : à appeler dans `loop()`, relance la connexion au plus toutes les 5 s si elle est perdue. Comme `connectToWiFi()` est bloquant, la boucle principale (MQTT et CAN) est suspendue jusqu'au retour du Wi-Fi.
 
 ---
 
-## Configuration — `Config.h`
+## Configuration — [`src/Config.h`](src/Config.h)
 
 | Constante                 | Valeur par défaut | Rôle                                   |
 |---------------------------|-------------------|----------------------------------------|
