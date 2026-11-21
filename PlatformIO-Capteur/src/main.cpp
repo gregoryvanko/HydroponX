@@ -73,7 +73,7 @@ void loop() {
     delay(10);
 
     // Print mesures
-    Serial.printf("Send CAN => Temp=%.2f°C  EC=%.2fmS/cm  Niveau=%.1fcm  Flux=%s\n",
+    Serial.printf("Send CAN => Temp=%.2f°C  EC=%.2fµS/cm  Niveau=%.1fcm  Flux=%s\n",
                   waterTemp,
                   waterEc,
                   waterLevel,

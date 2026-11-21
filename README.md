@@ -76,7 +76,7 @@ Module Gateway:
 | Topic                 | Valeur exemple | Description              |
 |-----------------------|----------------|--------------------------|
 | `hydro1/waterTemp  `  | `22.50`        | Température eau (°C)     |
-| `hydro1/waterEc`      | `1.850`        | Conductivité (mS/cm)     |
+| `hydro1/waterEc`      | `1850.00`      | Conductivité (µS/cm)     |
 | `hydro1/waterLevel `  | `75`           | Niveau eau (%)           |
 | `hydro1/waterPresent` | `true`         | Flux présent (bool)      |
 

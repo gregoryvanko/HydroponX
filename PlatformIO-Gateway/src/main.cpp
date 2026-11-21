@@ -59,7 +59,7 @@ void traiterCanMsg(const CANManager::CANMessage &rxMessage){
     case CONFIG_CAN_ID_waterEc: {
       float value = CANManager::decodeFloat(rxMessage);
       mqtt.publish(CONFIG_TOPIC_waterEc, String(value, 2));
-      Serial.printf("EC=%.2fmS/cm\n", value);
+      Serial.printf("EC=%.2fµS/cm\n", value);
       break;
     }
 

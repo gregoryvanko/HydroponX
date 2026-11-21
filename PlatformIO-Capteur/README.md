@@ -3,7 +3,28 @@
 Firmware de l'ESP32 « Module Capteur » du système hydroponique HydroponX.
 Ce module mesure l'état de l'eau du réservoir et envoie ses mesures toutes les minutes sur le **bus CAN**, où elles sont reprises par le [Module Gateway](../PlatformIO-Gateway/README.md) puis publiées sur MQTT.
 
-> Code migré depuis le projet Arduino IDE [`SRC/Module-Capteur`](../SRC/Module-Capteur) : le sketch `.ino` est devenu [`src/main.cpp`](src/main.cpp), les en-têtes sont dans [`include/`](include) et les implémentations dans [`src/`](src).
+> Code migré depuis le projet Arduino IDE [`SRC/Module-Capteur`](../SRC/Module-Capteur).
+
+---
+
+## Structure du projet
+
+```
+PlatformIO-Capteur/
+├── platformio.ini              Carte, framework, vitesse série et dépendances externes
+├── src/
+│   ├── main.cpp                Programme principal : setup() / loop()
+│   └── Config.h                Broches, intervalle de mesure, débit et IDs CAN
+└── lib/                        Bibliothèques locales (une classe par dossier)
+    ├── CANManager/             CANManager.h / .cpp          → bus CAN (TWAI)
+    ├── SensorTemperature/      SensorTemperature.h / .cpp   → DS18B20
+    ├── SensorTDS/              SensorTDS.h / .cpp           → conductivité (sonde TDS)
+    ├── SensorSonar/            SensorSonar.h / .cpp         → niveau d'eau (JSN-SR04T)
+    └── SensorWaterPresent/     SensorWaterPresent.h / .cpp  → détection de retour d'eau
+```
+
+Chaque dossier de `lib/` est compilé par PlatformIO comme une bibliothèque indépendante : son en-tête est trouvé automatiquement quand `main.cpp` fait `#include "<Nom>.h"`, sans réglage dans `platformio.ini`.
+Les bibliothèques externes (OneWire, DallasTemperature) sont téléchargées via `lib_deps`.
 
 ---
 
@@ -43,21 +64,23 @@ La boucle est cadencée par `millis()` (non bloquante entre deux cycles) : toute
    - conductivité, compensée avec la température qui vient d'être mesurée.
 2. **Envoi sur le bus CAN** de 4 trames successives, espacées de 10 ms.
 3. **Log série** récapitulatif, par ex. :
-   `Send CAN => Temp=22.50°C  EC=1850.00mS/cm  Niveau=34.2cm  Flux=OUI`
+   `Send CAN => Temp=22.50°C  EC=1850.00µS/cm  Niveau=34.2cm  Flux=OUI`
 
 Un cycle complet dure environ 2 secondes (≈ 750 ms pour la conversion DS18B20, 20 × 40 ms pour le moyennage TDS, 9 × 30 ms pour le sonar).
 
 ---
 
-## Détail des classes
+## Détail des bibliothèques (`lib/`)
 
 ### `SensorTemperature` — DS18B20
-- Utilise les bibliothèques `OneWire` (v2.3.8) et `DallasTemperature` (v4.0.6).
+*Dossier : [`lib/SensorTemperature`](lib/SensorTemperature)*
+- Utilise les bibliothèques externes `OneWire` et `DallasTemperature`.
 - `begin()` signale sur le port série si aucun capteur n'est détecté sur le bus OneWire.
 - `read()` lance une conversion et renvoie la température (°C) du premier capteur.
   En cas d'erreur, la valeur `DEVICE_DISCONNECTED_C` (**-127 °C**) est renvoyée telle quelle et sera transmise sur le CAN.
 
 ### `SensorTDS` — conductivité (sonde TDS CQRobot)
+*Dossier : [`lib/SensorTDS`](lib/SensorTDS)*
 - ADC 12 bits, atténuation 11 dB (plage 0–3,3 V), référence 3,3 V.
 - `readVoltage()` : moyenne de 20 lectures espacées de 40 ms.
 - `readTDS(t)` : compensation thermique `k = 1 + 0,02 × (t − 25)`, puis conversion tension → TDS (ppm) par le polynôme CQRobot :
@@ -65,19 +88,20 @@ Un cycle complet dure environ 2 secondes (≈ 750 ms pour la conversion DS18B20,
 - `readEC(t)` : `EC ≈ TDS × 2`, exprimée en **µS/cm**.
 - Les paramètres par défaut (`EC_VREF`, `EC_ADC_RESOLUTION`, `EC_NUM_SAMPLES`, `EC_SAMPLE_INTERVAL_MS`) peuvent être redéfinis par `#define` (ou `build_flags` PlatformIO).
 
-> ⚠️ La valeur envoyée est en µS/cm, alors que le log série et le README racine indiquent mS/cm.
-
 ### `SensorSonar` — JSN-SR04T
+*Dossier : [`lib/SensorSonar`](lib/SensorSonar)*
 - `measureCm()` : impulsion TRIG de 10 µs, mesure de la durée ECHO avec `pulseIn()` (timeout 30 ms), conversion avec une vitesse du son de 0,034329 cm/µs (20 °C).
   Renvoie **-1** en cas de timeout ou si la distance dépasse 400 cm.
 - `measureMedianCm(n, delayMs)` : réalise entre 3 et 9 mesures (30 ms d'écart par défaut), écarte les mesures invalides et renvoie la médiane (tri à bulles), ou -1 si toutes ont échoué.
 - La valeur envoyée sur le CAN est la **distance capteur → surface de l'eau, en cm** (pas un pourcentage de remplissage).
 
 ### `SensorWaterPresent` — détection de retour d'eau
-- Entrée numérique simple (pull-up interne désactivé dans `Module-Capteur.ino`).
+*Dossier : [`lib/SensorWaterPresent`](lib/SensorWaterPresent)*
+- Entrée numérique simple (pull-up interne désactivé dans `src/main.cpp`).
 - `read()` renvoie `true` si la broche est à l'état `HIGH`.
 
 ### `CANManager` — bus CAN (TWAI)
+*Dossier : [`lib/CANManager`](lib/CANManager)*
 Encapsule le contrôleur CAN intégré de l'ESP32 (driver `driver/twai.h`), utilisé avec un transceiver SN65HVD230.
 - `begin(rx, tx, baudrate)` : installe et démarre le driver (250 k, 500 k ou 1 Mbit/s ; mode normal, sans filtre par défaut).
 - Envoi : `sendBool` (1 octet : `0x00`/`0x01`), `sendFloat` (4 octets IEEE 754, ordre mémoire little-endian de l'ESP32), `sendInt16` / `sendInt32` (big-endian). Timeout d'émission : 10 ms.
@@ -86,7 +110,7 @@ Encapsule le contrôleur CAN intégré de l'ESP32 (driver `driver/twai.h`), util
 
 ---
 
-## Configuration — `Config.h`
+## Configuration — [`src/Config.h`](src/Config.h)
 
 | Constante                    | Valeur    | Rôle                                 |
 |------------------------------|-----------|--------------------------------------|
