@@ -14,19 +14,19 @@ Ce module fait le pont entre le **bus CAN** et un **broker MQTT** (via Wi-Fi) :
 
 ```
 PlatformIO-Gateway/
-├── platformio.ini              Carte, framework, vitesse série et dépendances externes
+├── platformio.ini              Carte, framework, vitesse série, dépendances, env OTA
+├── secrets.ini.example         Modèle de secrets.ini (mot de passe et adresse OTA, ignoré par git)
 ├── src/
 │   ├── main.cpp                Programme principal : setup() / loop(), routage CAN ↔ MQTT
-│   ├── Config.h                Broches, Wi-Fi, broker et topics MQTT, débit et IDs CAN
-│   └── WifiHelper.h            Connexion et reconnexion Wi-Fi
+│   └── Config.h                Nom d'appareil, broches, topics MQTT, débit et IDs CAN
 └── lib/                        Bibliothèques locales (une classe par dossier)
     ├── CANManager/             CANManager.h / .cpp        → bus CAN (TWAI)
-    ├── MqttGateway/            MqttGateway.h / .cpp       → client MQTT (PubSubClient)
+    ├── ESPConnect/             ESPConnect.h / .cpp        → Wi-Fi (portail captif) + client MQTT
     └── RelayController/        RelayController.h / .cpp   → sorties relais
 ```
 
 Chaque dossier de `lib/` est compilé par PlatformIO comme une bibliothèque indépendante : son en-tête est trouvé automatiquement quand `main.cpp` fait `#include "<Nom>.h"`, sans réglage dans `platformio.ini`.
-La bibliothèque externe PubSubClient est téléchargée via `lib_deps`.
+Les dépendances d'ESPConnect (AsyncTCP, ESPAsyncWebServer) sont téléchargées via `lib_deps`.
 
 ---
 
@@ -34,7 +34,7 @@ La bibliothèque externe PubSubClient est téléchargée via `lib_deps`.
 
 ```
                       ┌─────────────── ESP32 Gateway ───────────────┐
- Bus CAN ──► Transceiver ──► CANManager ──► traiterCanMsg() ──► MqttGateway ──(Wi-Fi)──► Broker MQTT
+ Bus CAN ──► Transceiver ──► CANManager ──► traiterCanMsg() ──► ESPConnect ──(Wi-Fi)──► Broker MQTT
                       │                                             │
                       │   RelayController ◄── onMqttMessage() ◄─────┘◄── hydro1/cmd/#
                       └──────┬──────────────┬───────────────────────┘
@@ -48,22 +48,27 @@ La bibliothèque externe PubSubClient est téléchargée via `lib_deps`.
 
 ### `setup()`
 1. Ouvre le port série (9600 bauds) pour les logs.
-2. **Wi-Fi** : `connectToWiFi()` se connecte en mode station au SSID configuré. L'appel est **bloquant** tant que la connexion n'est pas établie.
-3. **MQTT** :
-   - renseigne l'identifiant / mot de passe du broker ;
-   - déclare un *Last Will* : si l'ESP32 se déconnecte brutalement, le broker publie `offline` (retenu, QoS 1) sur `hydro1/status` ;
-   - enregistre le callback `onMqttMessage` ;
-   - tente la connexion (5 essais espacés de 5 s). En cas d'échec, l'ESP32 **redémarre** (`ESP.restart()`) ;
-   - souscrit à `hydro1/cmd/#` (QoS 1) et publie `online` (retenu) sur `hydro1/status`.
-4. **CAN** : démarre le bus à 500 kbit/s sur RX = GPIO 16, TX = GPIO 17. En cas d'échec, le programme se bloque dans une boucle infinie.
-5. **Relais** : configure les deux sorties et met les relais à l'arrêt.
+2. **Relais** : configure les deux sorties et met les relais à l'arrêt.
+3. **CAN** : démarre le bus à 500 kbit/s sur RX = GPIO 16, TX = GPIO 17. En cas d'échec, le programme se bloque dans une boucle infinie.
+4. **Wi-Fi + MQTT** (ESPConnect) : enregistre le callback `onMqttMessage`, déclare la souscription à `hydro1/cmd/#` (QoS 1, renouvelée à chaque reconnexion) puis démarre ESPConnect avec le nom d'appareil `hydro1`. Le démarrage n'est **pas bloquant**.
 
 ### `loop()`
 La boucle tourne en continu, sans délai :
 
-1. `handleWiFiReconnect()` : si le Wi-Fi est perdu, nouvelle tentative au plus toutes les 5 s.
-2. `mqtt.loop()` : maintient la connexion au broker (reconnexion automatique, 1 tentative toutes les 5 s) et traite les messages entrants.
-3. `can.receive()` (non bloquant) : si une trame CAN est disponible, elle est passée à `traiterCanMsg()`.
+1. `espConnect.loop()` : connexion et reconnexion Wi-Fi, client MQTT, bouton de réinitialisation et appel des callbacks.
+2. `can.receive()` (non bloquant) : si une trame CAN est disponible, elle est passée à `traiterCanMsg()`.
+
+### Configuration Wi-Fi et MQTT
+Les identifiants ne sont plus dans le code : ils sont saisis depuis le navigateur et stockés en flash (NVS).
+
+1. **Premier démarrage** : l'ESP32 ouvre le point d'accès ouvert `HydroponX-Setup`. S'y connecter, puis choisir le réseau Wi-Fi sur la page qui s'ouvre (ou http://192.168.1.1).
+2. **MQTT** : une fois l'ESP32 connecté au Wi-Fi, ouvrir `http://<ip-esp32>/status`, cocher *Activer la connexion MQTT* et saisir le broker (`mqtt://`, port 1883), l'utilisateur et le mot de passe.
+3. **Réinitialiser le Wi-Fi** : maintenir le bouton BOOT (GPIO 0) 2 s.
+
+### Mise à jour par le réseau (OTA)
+`espConnect.enableOTA()` active ArduinoOTA (port 3232, protégé par mot de passe) dès que le Wi-Fi est connecté. Il n'est pas disponible sur le portail de configuration. Au début d'un téléversement, l'ESP32 publie `offline`, puis redémarre sur le nouveau firmware.
+
+Voir le [README d'ESPConnect](lib/ESPConnect/README.md) pour le détail.
 
 ### CAN → MQTT : `traiterCanMsg()`
 L'identifiant de la trame détermine son décodage et le topic de publication :
@@ -75,7 +80,7 @@ L'identifiant de la trame détermine son décodage et le topic de publication :
 | `0x103` | `decodeFloat` | `hydro1/waterLevel`   | distance en cm, 2 décimales |
 | `0x104` | `decodeBool`  | `hydro1/waterPresent` | `1` ou `0`                  |
 
-Les messages sont publiés en QoS 0, non retenus. Un ID inconnu est simplement signalé sur le port série.
+Les messages sont publiés en QoS 0, non retenus, uniquement si le broker est connecté. Un ID inconnu est simplement signalé sur le port série.
 
 > Remarques : les valeurs sont relayées telles quelles. La conductivité est calculée en µS/cm par le Module Capteur, le niveau est une distance capteur → surface (et non un pourcentage), et les valeurs d'erreur des capteurs (`-127` pour la température, `-1` pour le sonar) sont publiées sans filtrage.
 
@@ -94,8 +99,10 @@ Tout autre topic sous `hydro1/cmd/` est ignoré.
 
 | Topic           | Payload   | Quand                                         |
 |-----------------|-----------|-----------------------------------------------|
-| `hydro1/status` | `online`  | Publié (retenu) après la connexion au broker  |
+| `hydro1/status` | `online`  | Publié (retenu) à la connexion au broker puis toutes les 60 s |
 | `hydro1/status` | `offline` | Publié par le broker (Last Will) à la perte de connexion |
+
+Ce topic est géré par ESPConnect : `<nom d'appareil>/status`.
 
 ---
 
@@ -110,18 +117,13 @@ Classe identique à celle du Module Capteur : encapsule le contrôleur CAN inté
 - `decodeBool` (1 octet), `decodeFloat` (4 octets IEEE 754), `decodeInt16` / `decodeInt32` (big-endian).
 - `setFilterRange()` / `setFilterMask()` permettent un filtrage matériel (à appeler avant `begin()`), non utilisé pour l'instant.
 
-### `MqttGateway` — client MQTT
-*Dossier : [`lib/MqttGateway`](lib/MqttGateway)*
+### `ESPConnect` — Wi-Fi et MQTT
+*Dossier : [`lib/ESPConnect`](lib/ESPConnect)* — voir son [README](lib/ESPConnect/README.md).
 
-Surcouche de `PubSubClient` :
-- buffer de paquet de 512 octets ;
-- gestion optionnelle de l'authentification et du Last Will ;
-- `connect(retries)` : tentatives espacées de 5 s (`0` = infini) ;
-- `publish()` / `subscribe()` / `unsubscribe()` avec logs série ;
-- `loop()` : reconnexion non bloquante puis `PubSubClient::loop()` ;
-- callback utilisateur de type `std::function<void(const String&, const String&)>`, relayé par un callback statique (une seule instance supportée).
-
-> `PubSubClient` ne publie qu'en QoS 0 : le paramètre `qos` de `publish()` est ignoré.
+- portail captif de configuration Wi-Fi, identifiants en NVS, reconnexion automatique ;
+- page `/status` (état, configuration MQTT à chaud) ;
+- client MQTT `esp-mqtt` (TCP/TLS/WS/WSS), statut `online`/`offline` avec Last Will ;
+- souscriptions mémorisées et renouvelées à chaque reconnexion ; `publish()` avec surcharges (`float` → 2 décimales).
 
 ### `RelayController` — sorties relais
 *Dossier : [`lib/RelayController`](lib/RelayController)*
@@ -130,34 +132,26 @@ Surcouche de `PubSubClient` :
 - `begin()` configure la broche en sortie et coupe le relais.
 - `turnOn()`, `turnOff()`, `toggle()`, `pulse(ms)` (bloquant), `isOn()`, `getStateString()`.
 
-### `WifiHelper.h` — connexion Wi-Fi
-*Fichier : [`src/WifiHelper.h`](src/WifiHelper.h)* (en-tête seul, inclus uniquement par `main.cpp`)
-
-- `connectToWiFi(ssid, password)` : connexion en mode station, attend la connexion (bloquant) puis affiche l'IP et le canal.
-- `handleWiFiReconnect()` : à appeler dans `loop()`, relance la connexion au plus toutes les 5 s si elle est perdue. Comme `connectToWiFi()` est bloquant, la boucle principale (MQTT et CAN) est suspendue jusqu'au retour du Wi-Fi.
-
 ---
 
 ## Configuration — [`src/Config.h`](src/Config.h)
 
 | Constante                 | Valeur par défaut | Rôle                                   |
 |---------------------------|-------------------|----------------------------------------|
+| `CONFIG_DEVICE_NAME`      | `hydro1`          | Nom d'appareil (hostname, client MQTT, topic de statut) |
+| `CONFIG_AP_NAME`          | `HydroponX-Setup` | Point d'accès du portail de configuration |
+| `CONFIG_OTA_PASSWORD`     | `secrets.ini`     | Mot de passe OTA (injecté par `build_flags`) |
+| `CONFIG_OTA_PORT`         | 3232              | Port OTA                               |
 | `CONFIG_PIN_CAN_TX`       | 17                | TX vers le transceiver CAN             |
 | `CONFIG_PIN_CAN_RX`       | 16                | RX depuis le transceiver CAN           |
 | `CONFIG_PIN_RELAY1`       | 32                | Relais pompe 1                         |
 | `CONFIG_PIN_RELAY2`       | 33                | Relais pompe 2                         |
 | `CONFIG_BAUDRATE`         | 9600              | Vitesse du port série                  |
-| `CONFIG_WIFI_SSID` / `CONFIG_WIFI_PASSWORD` | —  | Identifiants Wi-Fi                     |
-| `CONFIG_MQTT_BROKER`      | IP du broker      | Adresse du broker MQTT                 |
-| `CONFIG_MQTT_PORT`        | 1883              | Port du broker                         |
-| `CONFIG_MQTT_CLIENT`      | `ESP32-Hydro1`    | Identifiant client MQTT (unique)       |
-| `CONFIG_MQTT_USER` / `CONFIG_MQTT_PASS` | —      | Authentification MQTT                  |
-| `CONFIG_TOPIC_*`          | `hydro1/...`      | Topics de mesures, commandes et état   |
+| `CONFIG_TOPIC_*`          | `hydro1/...`      | Topics de mesures et de commandes      |
 | `CONFIG_CAN_BAUDRATE`     | 500000            | Débit du bus CAN (bit/s)               |
 | `CONFIG_CAN_ID_*`         | `0x101`–`0x104`   | Identifiants des trames de mesure      |
 
 Le débit CAN et les identifiants doivent rester identiques à ceux du `Config.h` du Module Capteur.
-⚠️ `Config.h` contient des identifiants Wi-Fi et MQTT : ne pas y committer les vraies valeurs.
 
 Le câblage complet est décrit dans le [README principal](../README.md#cablage-1).
 
@@ -165,15 +159,32 @@ Le câblage complet est décrit dans le [README principal](../README.md#cablage-
 
 ## Compilation et téléversement (PlatformIO)
 
-Carte : `esp32dev`, framework Arduino. Bibliothèque déclarée dans `platformio.ini` (téléchargée automatiquement à la première compilation) :
+Carte : `esp32dev`, framework Arduino. Bibliothèques déclarées dans `platformio.ini` (téléchargée automatiquement à la première compilation) :
 
 ```ini
 monitor_speed = 9600
 lib_deps =
-    knolleary/PubSubClient@^2.8
+    ESP32Async/AsyncTCP @ 3.5.0
+    ESP32Async/ESPAsyncWebServer @ 3.12.0
 ```
 
-Commandes usuelles :
+### Secrets (obligatoire)
+Le mot de passe OTA n'est pas dans le code. Créer `secrets.ini` (ignoré par git) à partir du modèle, puis le renseigner :
+
+```bash
+cp secrets.ini.example secrets.ini
+```
+
+```ini
+[secrets]
+ota_password = mon-mot-de-passe   ; compilé dans le firmware et utilisé pour le téléversement
+ota_host = 192.168.1.50           ; IP de l'ESP32 (visible sur /status) ou son nom DNS
+```
+
+Sans ce fichier, PlatformIO s'arrête avec l'erreur `No section: 'secrets'`.
+
+### Commandes usuelles
+Premier flash par USB :
 
 ```bash
 pio run -t upload
@@ -182,3 +193,11 @@ pio run -t upload
 ```bash
 pio device monitor
 ```
+
+Mises à jour suivantes par le réseau (OTA) :
+
+```bash
+pio run -e esp32dev_ota -t upload
+```
+
+Le mDNS n'est pas activé : `ota_host` doit être l'adresse IP de l'ESP32 ou le nom que lui donne le DNS du routeur (`hydro1`).

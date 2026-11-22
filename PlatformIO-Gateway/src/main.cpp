@@ -1,71 +1,69 @@
 // board : ESP32 (Arduino core) — migré depuis SRC/Module-Gateway
+//
+// Passerelle CAN → MQTT :
+//  - ESPConnect gère le Wi-Fi (portail captif, reconnexion) et le client MQTT
+//    (configuré depuis la page http://<ip>/status, statut online/offline + LWT) ;
+//  - les mesures reçues sur le bus CAN sont publiées sur MQTT ;
+//  - les commandes MQTT pilotent les relais ;
+//  - le firmware peut être mis à jour par le réseau (OTA, env esp32dev_ota).
 
 #include <Arduino.h>
+#include <ESPConnect.h>
 #include "Config.h"
-#include <WiFi.h>
-#include "WifiHelper.h"
-#include "MqttGateway.h"
 #include "CANManager.h"
 #include "RelayController.h"
 
 // ── Objets globaux ────────────────────────────────────────────────────────────
-CANManager can;
-WiFiClient  wifiClient;
-MqttGateway mqtt(wifiClient, CONFIG_MQTT_BROKER, CONFIG_MQTT_PORT, CONFIG_MQTT_CLIENT);
+CANManager      can;
 RelayController relay1(CONFIG_PIN_RELAY1, true);
 RelayController relay2(CONFIG_PIN_RELAY2, true);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Callback réception MQTT
-// ─────────────────────────────────────────────────────────────────────────────
-void onMqttMessage(const String& topic, const String& payload) {
-    Serial.printf("Message MQTT reçu — topic: %s | payload: %s\n",
-                  topic.c_str(), payload.c_str());
- 
-    if (topic == "hydro1/cmd/out1") {
-      bool on = (payload == "ON" || payload == "1");
-      Serial.printf("Commande Relay1 : %s\n", on ? "MARCHE" : "ARRÊT");
-      on ? relay1.turnOn() : relay1.turnOff();
-    } else if (topic == "hydro1/cmd/out2"){
-      bool on = (payload == "ON" || payload == "1");
-      Serial.printf("Commande Relay2 : %s\n", on ? "MARCHE" : "ARRÊT");
-      on ? relay2.turnOn() : relay2.turnOff();
-    }
-    else {
-      Serial.printf("Topic not found");
-    }
+// ── Réception MQTT : commandes des relais ─────────────────────────────────────
+static bool parseOnOff(const String& payload) {
+  return payload == "ON" || payload == "1";
 }
 
-// ---------------------------------------------------------------------------
-// Traitement des message CAN reçues
-// ---------------------------------------------------------------------------
-void traiterCanMsg(const CANManager::CANMessage &rxMessage){
-  switch (rxMessage.id) {
+void onMqttMessage(const String& topic, const String& payload) {
+  if (topic == CONFIG_TOPIC_CMD_RELAY1) {
+    bool on = parseOnOff(payload);
+    Serial.printf("Commande Relay1 : %s\n", on ? "MARCHE" : "ARRÊT");
+    on ? relay1.turnOn() : relay1.turnOff();
+  } else if (topic == CONFIG_TOPIC_CMD_RELAY2) {
+    bool on = parseOnOff(payload);
+    Serial.printf("Commande Relay2 : %s\n", on ? "MARCHE" : "ARRÊT");
+    on ? relay2.turnOn() : relay2.turnOff();
+  } else {
+    Serial.printf("Topic inconnu : %s\n", topic.c_str());
+  }
+}
 
+// ── Traitement des messages CAN reçus ─────────────────────────────────────────
+void traiterCanMsg(const CANManager::CANMessage& rxMessage) {
+  switch (rxMessage.id) {
     case CONFIG_CAN_ID_waterPresent: {
       bool value = CANManager::decodeBool(rxMessage);
-      mqtt.publish(CONFIG_TOPIC_waterPresent, String(value ? "1" : "0"));
+      espConnect.publish(CONFIG_TOPIC_waterPresent, value ? "1" : "0");
       Serial.printf("Flux=%s\n", value ? "true" : "false");
       break;
     }
 
     case CONFIG_CAN_ID_waterTemp: {
       float value = CANManager::decodeFloat(rxMessage);
-      mqtt.publish(CONFIG_TOPIC_waterTemp, String(value, 2));
+      espConnect.publish(CONFIG_TOPIC_waterTemp, value);
       Serial.printf("Temp=%.2f°C\n", value);
       break;
     }
 
     case CONFIG_CAN_ID_waterEc: {
       float value = CANManager::decodeFloat(rxMessage);
-      mqtt.publish(CONFIG_TOPIC_waterEc, String(value, 2));
+      espConnect.publish(CONFIG_TOPIC_waterEc, value);
       Serial.printf("EC=%.2fµS/cm\n", value);
       break;
     }
 
     case CONFIG_CAN_ID_waterLevel: {
       float value = CANManager::decodeFloat(rxMessage);
-      mqtt.publish(CONFIG_TOPIC_waterLevel, String(value, 2));
+      espConnect.publish(CONFIG_TOPIC_waterLevel, value);
       Serial.printf("Niveau=%.1fcm\n", value);
       break;
     }
@@ -76,54 +74,36 @@ void traiterCanMsg(const CANManager::CANMessage &rxMessage){
   }
 }
 
-// ---setup------------------------------------------------
+// ── setup ─────────────────────────────────────────────────────────────────────
 void setup() {
-  // setup serial
   Serial.begin(CONFIG_BAUDRATE);
   delay(1000);
-
-  // Setup start
   Serial.println("\n[Setup] start");
 
-  // Wifi connection to routeur
-  connectToWiFi(CONFIG_WIFI_SSID, CONFIG_WIFI_PASSWORD);
-
-  // MQTT connection
-  mqtt.setCredentials(CONFIG_MQTT_USER, CONFIG_MQTT_PASS);
-  mqtt.setLastWill(CONFIG_TOPIC_STATUS, "offline", /*retain=*/true, /*qos=*/1);
-  mqtt.setMessageCallback(onMqttMessage);
-  if (!mqtt.connect(5)) {
-      Serial.println("[Setup] Impossible de se connecter au broker. Redémarrage…");
-      ESP.restart();
-  }
-  mqtt.subscribe(CONFIG_TOPIC_CMD, 1);
-  mqtt.publish(CONFIG_TOPIC_STATUS, "online", /*retain=*/true);
-
-  // Initialisation du bus CAN
-  if (!can.begin(CONFIG_PIN_CAN_RX, CONFIG_PIN_CAN_TX, CONFIG_CAN_BAUDRATE)) {
-      Serial.println("[Setup] ERREUR: Impossible d'initialiser le CAN!");
-      while (1) {
-          delay(100);
-      }
-  }
-
-  // Setup Relay
+  // Relais (sortie à l'état sûr au plus tôt)
   relay1.begin();
   relay2.begin();
 
-  // Setup done
+  // Bus CAN
+  if (!can.begin(CONFIG_PIN_CAN_RX, CONFIG_PIN_CAN_TX, CONFIG_CAN_BAUDRATE)) {
+    Serial.println("[Setup] ERREUR : impossible d'initialiser le CAN !");
+    while (true) delay(100);
+  }
+
+  // Wi-Fi + MQTT + OTA (souscriptions renouvelées à chaque reconnexion)
+  espConnect.onMqttMessage(onMqttMessage);
+  espConnect.subscribe(CONFIG_TOPIC_CMD, 1);
+  espConnect.enableOTA(CONFIG_OTA_PASSWORD, CONFIG_OTA_PORT);
+  espConnect.begin(CONFIG_DEVICE_NAME, CONFIG_AP_NAME);
+
   Serial.println("[Setup] done");
 }
 
-// ---loop-------------------------------------------------
+// ── loop ──────────────────────────────────────────────────────────────────────
 void loop() {
-  // Reconnexion Wi-Fi si nécessaire (non bloquant)
-  handleWiFiReconnect();
+  // Wi-Fi, MQTT, bouton de réinitialisation et callbacks
+  espConnect.loop();
 
-  // Maintien connexion mqtt + réception messages
-  mqtt.loop();
-
-  // Analyse des messages CAN
   CANManager::CANMessage rxMessage;
   if (can.receive(rxMessage)) {
     traiterCanMsg(rxMessage);

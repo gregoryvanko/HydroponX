@@ -1,34 +1,41 @@
 #pragma once
 
-// ── PIN -──────────────────────────────────────────────────────────────────────
+#include <Arduino.h>
+
+// ── Appareil ──────────────────────────────────────────────────────────────────
+// Nom d'appareil : hostname, identifiant client MQTT et topic de statut
+// ("hydro1/status"). Peut être modifié depuis la page /status d'ESPConnect.
+constexpr const char* CONFIG_DEVICE_NAME = "hydro1";
+// Point d'accès ouvert du portail de configuration Wi-Fi (premier démarrage)
+constexpr const char* CONFIG_AP_NAME     = "HydroponX-Setup";
+
+// ── OTA ───────────────────────────────────────────────────────────────────────
+// CONFIG_OTA_PASSWORD est défini par platformio.ini depuis secrets.ini
+#ifndef CONFIG_OTA_PASSWORD
+#error "CONFIG_OTA_PASSWORD non défini : créer secrets.ini à partir de secrets.ini.example"
+#endif
+static_assert(sizeof(CONFIG_OTA_PASSWORD) > 1, "Le mot de passe OTA ne doit pas être vide");
+constexpr uint16_t CONFIG_OTA_PORT = 3232;
+
+// ── PIN ───────────────────────────────────────────────────────────────────────
 constexpr uint8_t CONFIG_PIN_CAN_TX = 17;
 constexpr uint8_t CONFIG_PIN_CAN_RX = 16;
 constexpr uint8_t CONFIG_PIN_RELAY1 = 32;
 constexpr uint8_t CONFIG_PIN_RELAY2 = 33;
 
-// ── Loop ──────────────────────────────────────────────────────────────────────
-constexpr uint16_t CONFIG_BAUDRATE = 9600;
+// ── Série ─────────────────────────────────────────────────────────────────────
+constexpr uint32_t CONFIG_BAUDRATE = 9600;
 
-// ── WiFi ──────────────────────────────────────────────────────────────────────
-constexpr char* CONFIG_WIFI_SSID     = "blacknet-IOT";
-constexpr char* CONFIG_WIFI_PASSWORD = "xxx";
-
-// ── MQTT ──────────────────────────────────────────────────────────────────────
-static const char* CONFIG_MQTT_BROKER   = "192.168.40.40";  // IP ou hostname du broker
-static const uint16_t CONFIG_MQTT_PORT  = 1883;
-static const char* CONFIG_MQTT_CLIENT   = "ESP32-Hydro1";
-static const char* CONFIG_MQTT_USER     = "xxx";     // nullptr si pas d'auth
-static const char* CONFIG_MQTT_PASS     = "xxx";
- 
 // ── MQTT Topics ───────────────────────────────────────────────────────────────
-static const char* CONFIG_TOPIC_waterTemp    = "hydro1/waterTemp";
-static const char* CONFIG_TOPIC_waterEc      = "hydro1/waterEc";
-static const char* CONFIG_TOPIC_waterLevel   = "hydro1/waterLevel";
-static const char* CONFIG_TOPIC_waterPresent = "hydro1/waterPresent";
-static const char* CONFIG_TOPIC_CMD          = "hydro1/cmd/#";  // wildcard
-static const char* CONFIG_TOPIC_STATUS       = "hydro1/status";
+constexpr const char* CONFIG_TOPIC_waterTemp    = "hydro1/waterTemp";
+constexpr const char* CONFIG_TOPIC_waterEc      = "hydro1/waterEc";
+constexpr const char* CONFIG_TOPIC_waterLevel   = "hydro1/waterLevel";
+constexpr const char* CONFIG_TOPIC_waterPresent = "hydro1/waterPresent";
+constexpr const char* CONFIG_TOPIC_CMD          = "hydro1/cmd/#";  // wildcard
+constexpr const char* CONFIG_TOPIC_CMD_RELAY1   = "hydro1/cmd/out1";
+constexpr const char* CONFIG_TOPIC_CMD_RELAY2   = "hydro1/cmd/out2";
 
-// ── CAN -──────────────────────────────────────────────────────────────────────
+// ── CAN ───────────────────────────────────────────────────────────────────────
 constexpr uint32_t CONFIG_CAN_BAUDRATE        = 500000;
 constexpr uint32_t CONFIG_CAN_ID_waterTemp    = 0x101;
 constexpr uint32_t CONFIG_CAN_ID_waterEc      = 0x102;
