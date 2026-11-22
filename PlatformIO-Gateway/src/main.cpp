@@ -1,4 +1,4 @@
-// board : ESP32 (Arduino core) — migré depuis SRC/Module-Gateway
+// board : ESP32 (Arduino core)
 //
 // Passerelle CAN → MQTT :
 //  - ESPConnect gère le Wi-Fi (portail captif, reconnexion) et le client MQTT

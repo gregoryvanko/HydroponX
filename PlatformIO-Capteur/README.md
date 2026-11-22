@@ -3,8 +3,6 @@
 Firmware de l'ESP32 « Module Capteur » du système hydroponique HydroponX.
 Ce module mesure l'état de l'eau du réservoir et envoie ses mesures toutes les minutes sur le **bus CAN**, où elles sont reprises par le [Module Gateway](../PlatformIO-Gateway/README.md) puis publiées sur MQTT.
 
-> Code migré depuis le projet Arduino IDE [`SRC/Module-Capteur`](../SRC/Module-Capteur).
-
 ---
 
 ## Structure du projet
@@ -130,7 +128,7 @@ Encapsule le contrôleur CAN intégré de l'ESP32 (driver `driver/twai.h`), util
 | `CONFIG_CAN_ID_waterPresent` | `0x104`   | ID CAN présence d'eau                |
 
 Le débit CAN et les identifiants doivent rester identiques à ceux du `Config.h` du Module Gateway.
-Le câblage complet est décrit dans le [README principal](../README.md#cablage).
+Le câblage complet est décrit dans le [README principal](../README.md#câblage).
 
 ---
 

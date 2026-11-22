@@ -6,8 +6,6 @@ Ce module fait le pont entre le **bus CAN** et un **broker MQTT** (via Wi-Fi) :
 - il écoute les mesures envoyées par le [Module Capteur](../PlatformIO-Capteur/README.md) et les republie sur des topics MQTT ;
 - il souscrit à des topics de commande MQTT pour piloter deux relais (pompes).
 
-> Code migré depuis le projet Arduino IDE [`SRC/Module-Gateway`](../SRC/Module-Gateway).
-
 ---
 
 ## Structure du projet
@@ -153,7 +151,7 @@ Classe identique à celle du Module Capteur : encapsule le contrôleur CAN inté
 
 Le débit CAN et les identifiants doivent rester identiques à ceux du `Config.h` du Module Capteur.
 
-Le câblage complet est décrit dans le [README principal](../README.md#cablage-1).
+Le câblage complet est décrit dans le [README principal](../README.md#câblage-1).
 
 ---
 

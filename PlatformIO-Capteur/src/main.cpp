@@ -1,4 +1,4 @@
-// board : ESP32 (Arduino core) — migré depuis SRC/Module-Capteur
+// board : ESP32 (Arduino core)
 
 #include <Arduino.h>
 #include "Config.h"
