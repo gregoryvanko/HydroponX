@@ -97,19 +97,3 @@ Module Gateway:
 | `0x104`     | Bool    | Flux présen     |
 
 ---
-
-## Obtenir les adresses MAC
-Flashez ce sketch minimal sur chaque ESP32 pour afficher son adresse MAC :
-
-```cpp
-#include <WiFi.h>
-void setup() {
-  Serial.begin(115200);
-  delay(5000);
-  WiFi.mode(WIFI_STA);
-  Serial.println(WiFi.macAddress());
-}
-void loop() {}
-```
-
----
