@@ -71,6 +71,14 @@
         "env": []
     },
     {
+        "id": "9077816d47d23540",
+        "type": "tab",
+        "label": "SemX",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "dc7bf7b9f400efc3",
         "type": "group",
         "z": "421713a84fde8e78",
@@ -484,6 +492,21 @@
         "width": "4",
         "height": 1,
         "className": ""
+    },
+    {
+        "id": "f2cbc47424deeaa2",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "Influxdb.vanko.be",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "https://influxdb.vanko.be",
+        "timeout": 10,
+        "rejectUnauthorized": true
     },
     {
         "id": "parser1",
@@ -2749,6 +2772,264 @@
         "y": 280,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "6dfba3400a496d85",
+        "type": "mqtt in",
+        "z": "9077816d47d23540",
+        "name": "semix",
+        "topic": "semix/#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "daa99494cc9a0975",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 240,
+        "wires": [
+            [
+                "be129a160ced6737"
+            ]
+        ]
+    },
+    {
+        "id": "be129a160ced6737",
+        "type": "function",
+        "z": "9077816d47d23540",
+        "name": "Parser topic",
+        "func": "// <metric>\nmsg.metric = msg.topic.slice(msg.topic.indexOf(\"/\") + 1);\n\n// Le payload peut arriver en JSON ou en valeur brute\nif (typeof msg.payload === 'string') {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        // valeur brute (ex: \"23.5\"), on la laisse telle quelle\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "f7a03693225fc099"
+            ]
+        ]
+    },
+    {
+        "id": "f7a03693225fc099",
+        "type": "switch",
+        "z": "9077816d47d23540",
+        "name": "Router métrique",
+        "property": "metric",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "status",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "temperature/Air",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "temperature/Semi",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "moisture/percent",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "light/state",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pump/state",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 6,
+        "x": 580,
+        "y": 240,
+        "wires": [
+            [],
+            [
+                "1bcc806dd6e9835d"
+            ],
+            [
+                "a6e136104cbec6bf"
+            ],
+            [
+                "bbe5cbde13e2617f"
+            ],
+            [
+                "610683608d025b8a"
+            ],
+            [
+                "a96c40f2f0e2ee3d"
+            ]
+        ]
+    },
+    {
+        "id": "1bcc806dd6e9835d",
+        "type": "function",
+        "z": "9077816d47d23540",
+        "name": "Temp Air",
+        "func": "let datatopayload = { \"time\": new Date().getTime(), \"Air\": msg.payload }\nmsg.payload = datatopayload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 160,
+        "wires": [
+            [
+                "3691d7eedb86ea0f"
+            ]
+        ]
+    },
+    {
+        "id": "3691d7eedb86ea0f",
+        "type": "influxdb out",
+        "z": "9077816d47d23540",
+        "influxdb": "f2cbc47424deeaa2",
+        "name": "Temperature",
+        "measurement": "Temperature",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "vanko",
+        "bucket": "Semix",
+        "x": 1050,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "a6e136104cbec6bf",
+        "type": "function",
+        "z": "9077816d47d23540",
+        "name": "Temp Semi",
+        "func": "let datatopayload = { \"time\": new Date().getTime(), \"Semi\": msg.payload }\nmsg.payload = datatopayload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 200,
+        "wires": [
+            [
+                "3691d7eedb86ea0f"
+            ]
+        ]
+    },
+    {
+        "id": "bbe5cbde13e2617f",
+        "type": "function",
+        "z": "9077816d47d23540",
+        "name": "Moisture",
+        "func": "let datatopayload = { \"time\": new Date().getTime(), \"Moisture1\": msg.payload }\nmsg.payload = datatopayload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 240,
+        "wires": [
+            [
+                "8caaef998afde758"
+            ]
+        ]
+    },
+    {
+        "id": "8caaef998afde758",
+        "type": "influxdb out",
+        "z": "9077816d47d23540",
+        "influxdb": "f2cbc47424deeaa2",
+        "name": "Moisture",
+        "measurement": "Moisture",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "vanko",
+        "bucket": "Semix",
+        "x": 1040,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "610683608d025b8a",
+        "type": "function",
+        "z": "9077816d47d23540",
+        "name": "State light",
+        "func": "const valeur = String(msg.payload).trim().toUpperCase();\n\nif (valeur === \"ON\") {\n    msg.payload = 1;\n} else if (valeur === \"OFF\") {\n    msg.payload = 0;\n} else {\n    node.warn(\"Valeur inattendue : \" + msg.payload);\n    return null; // on ne propage rien\n}\nlet datatopayload = { \"time\": new Date().getTime(), \"Light\": msg.payload }\nmsg.payload = datatopayload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 280,
+        "wires": [
+            [
+                "3b89dc062eabeef3"
+            ]
+        ]
+    },
+    {
+        "id": "3b89dc062eabeef3",
+        "type": "influxdb out",
+        "z": "9077816d47d23540",
+        "influxdb": "f2cbc47424deeaa2",
+        "name": "State",
+        "measurement": "State",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "vanko",
+        "bucket": "Semix",
+        "x": 1030,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "a96c40f2f0e2ee3d",
+        "type": "function",
+        "z": "9077816d47d23540",
+        "name": "State pump",
+        "func": "const valeur = String(msg.payload).trim().toUpperCase();\n\nif (valeur === \"ON\") {\n    msg.payload = 1;\n} else if (valeur === \"OFF\") {\n    msg.payload = 0;\n} else {\n    node.warn(\"Valeur inattendue : \" + msg.payload);\n    return null; // on ne propage rien\n}\nlet datatopayload = { \"time\": new Date().getTime(), \"Pump\": msg.payload }\nmsg.payload = datatopayload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 320,
+        "wires": [
+            [
+                "3b89dc062eabeef3"
+            ]
         ]
     }
 ]
