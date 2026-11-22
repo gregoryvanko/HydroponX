@@ -74,6 +74,40 @@ void traiterCanMsg(const CANManager::CANMessage& rxMessage) {
   }
 }
 
+// ── Surveillance de la réception CAN ──────────────────────────────────────────
+// Publie une erreur (retenue) sur CONFIG_TOPIC_error quand le capteur se tait
+// plus de CONFIG_CAN_TIMEOUT_MS, puis "OK" quand les messages reviennent.
+// Si MQTT est déconnecté au moment du changement d'état, la publication est
+// retentée à chaque tour de loop jusqu'à ce qu'elle réussisse.
+static uint32_t lastCanRxMs     = 0;
+static bool     canTimedOut     = false;
+static bool     canStatePending = false;
+
+void surveillerCan(bool messageRecu) {
+  uint32_t now = millis();
+
+  if (messageRecu) {
+    lastCanRxMs = now;
+    if (canTimedOut) {
+      canTimedOut     = false;
+      canStatePending = true;
+      Serial.println("[CAN] Réception rétablie");
+    }
+  } else if (!canTimedOut && now - lastCanRxMs > CONFIG_CAN_TIMEOUT_MS) {
+    canTimedOut     = true;
+    canStatePending = true;
+    Serial.printf("[CAN] Aucun message depuis %lu s\n",
+                  (unsigned long)((now - lastCanRxMs) / 1000));
+  }
+
+  if (canStatePending && espConnect.isMqttConnected()) {
+    const char* payload = canTimedOut ? "CAN_TIMEOUT: aucun message du capteur" : "OK";
+    if (espConnect.publish(CONFIG_TOPIC_error, payload, true)) {
+      canStatePending = false;
+    }
+  }
+}
+
 // ── setup ─────────────────────────────────────────────────────────────────────
 void setup() {
   Serial.begin(CONFIG_BAUDRATE);
@@ -96,6 +130,7 @@ void setup() {
   espConnect.enableOTA(CONFIG_OTA_PASSWORD, CONFIG_OTA_PORT);
   espConnect.begin(CONFIG_DEVICE_NAME, CONFIG_AP_NAME);
 
+  lastCanRxMs = millis();  // le délai de surveillance CAN démarre ici
   Serial.println("[Setup] done");
 }
 
@@ -105,7 +140,9 @@ void loop() {
   espConnect.loop();
 
   CANManager::CANMessage rxMessage;
-  if (can.receive(rxMessage)) {
+  bool recu = can.receive(rxMessage);
+  if (recu) {
     traiterCanMsg(rxMessage);
   }
+  surveillerCan(recu);
 }
