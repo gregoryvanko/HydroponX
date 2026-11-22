@@ -31,6 +31,7 @@ constexpr const char* CONFIG_TOPIC_waterTemp    = "hydro1/waterTemp";
 constexpr const char* CONFIG_TOPIC_waterEc      = "hydro1/waterEc";
 constexpr const char* CONFIG_TOPIC_waterLevel   = "hydro1/waterLevel";
 constexpr const char* CONFIG_TOPIC_waterPresent = "hydro1/waterPresent";
+constexpr const char* CONFIG_TOPIC_error        = "hydro1/error";
 constexpr const char* CONFIG_TOPIC_CMD          = "hydro1/cmd/#";  // wildcard
 constexpr const char* CONFIG_TOPIC_CMD_RELAY1   = "hydro1/cmd/out1";
 constexpr const char* CONFIG_TOPIC_CMD_RELAY2   = "hydro1/cmd/out2";
@@ -41,3 +42,7 @@ constexpr uint32_t CONFIG_CAN_ID_waterTemp    = 0x101;
 constexpr uint32_t CONFIG_CAN_ID_waterEc      = 0x102;
 constexpr uint32_t CONFIG_CAN_ID_waterLevel   = 0x103;
 constexpr uint32_t CONFIG_CAN_ID_waterPresent = 0x104;
+
+// Le capteur émet toutes les 60 s (CONFIG_MESURE_INTERVAL côté capteur).
+// Sans message CAN pendant ce délai, une erreur est publiée sur CONFIG_TOPIC_error.
+constexpr uint32_t CONFIG_CAN_TIMEOUT_MS      = 3 * 60000;
